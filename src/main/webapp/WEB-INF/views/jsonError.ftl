@@ -1,0 +1,1 @@
+{"exception": {"message": "${(exception.message?json_string)!}", "stackTrace": "${exceptionStack?json_string}"}}

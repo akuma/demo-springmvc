@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="user">
+
+    <resultMap id="UserResult" class="demo.spring.mvc.entity.User">
+        <result property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="realName" column="real_name" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="creationTime" column="creation_time" />
+    </resultMap>
+
+    <select id="findUser" resultMap="UserResult">
+        select id, username, password, real_name, modify_time, creation_time
+        from demo_user where id = #value#
+    </select>
+
+    <sql id="findUsersCondition">
+        <dynamic prepend="WHERE">
+            <isNotEmpty property="id" prepend="AND">
+            id = #id#
+            </isNotEmpty>
+            <isNotEmpty property="username" prepend="AND">
+            username = #username#
+            </isNotEmpty>
+            <isNotEmpty property="password" prepend="AND">
+            password = #password#
+            </isNotEmpty>
+            <isNotEmpty property="realName" prepend="AND">
+            real_name = #realName#
+            </isNotEmpty>
+            <isNotNull property="modifyTime" prepend="AND">
+            modify_time = #modifyTime#
+            </isNotNull>
+            <isNotNull property="creationTime" prepend="AND">
+            creation_time = #creationTime#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findUsersByUser" resultMap="UserResult">
+        select id, username, password, real_name, modify_time, creation_time
+        from demo_user
+        <include refid="findUsersCondition"/>
+    </select>
+
+    <select id="countUsersByUser" resultClass="int">
+        select count(1) from demo_user
+        <include refid="findUsersCondition"/>
+    </select>
+
+    <select id="findUserMap" parameterClass="list" resultMap="UserResult">
+        select id, username, password, real_name, modify_time, creation_time
+        from demo_user
+        where id in
+        <dynamic>
+            <iterate open="(" close=")" conjunction=", ">#value[]#</iterate>
+        </dynamic>
+    </select>
+
+    <insert id="insertUser">
+        insert into demo_user(username, password, real_name, modify_time, creation_time)
+        values(#username#, #password#, #realName#, #modifyTime#, #creationTime#)
+        <selectKey resultClass="java.lang.Integer" keyProperty="id">
+            select @@identity
+        </selectKey>
+    </insert>
+
+    <update id="updateUser">
+        update demo_user set username = #username#, password = #password#, real_name = #realName# where id = #id#
+    </update>
+
+    <update id="updateUserNotNull">
+        update demo_user set id = #id#
+        <isNotNull prepend=", " property="username">
+            username = #username#
+        </isNotNull>
+        <isNotNull prepend=", " property="password">
+            password = #password#
+        </isNotNull>
+        <isNotNull prepend=", " property="realName">
+            real_name = #realName#
+        </isNotNull>
+        <isNotNull prepend=", " property="modifyTime">
+            modify_time = #modifyTime#
+        </isNotNull>
+        where id = #id#
+    </update>
+
+    <delete id="deleteUsers" parameterClass="list">
+        delete from demo_user where id in
+        <dynamic>
+            <iterate open="(" close=")" conjunction=", ">#value[]#</iterate>
+        </dynamic>
+    </delete>
+
+</sqlMap>

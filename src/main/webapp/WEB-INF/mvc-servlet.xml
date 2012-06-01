@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:freemarker.properties" />
+
+    <!-- Handles HTTP GET requests for static resources -->
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/style/**" location="/style/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/script/**" location="/script/" />
+
+    <!-- Resolve logical view names to .ftl resources in the /WEB-INF/views directory -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".ftl" />
+        <property name="contentType" value="utf-8" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="exposeRequestAttributes" value="true" />
+        <property name="exposeSessionAttributes" value="true" />
+        <property name="requestContextAttribute" value="request" />
+    </bean>
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/views/" />
+        <property name="freemarkerSettings">
+            <map>
+                <entry key="auto_import" value="${auto_import}" />
+                <entry key="default_encoding" value="${default_encoding}" />
+                <entry key="url_escaping_charset" value="${url_escaping_charset}" />
+                <entry key="tag_syntax" value="${tag_syntax}" />
+                <entry key="template_update_delay" value="${template_update_delay}" />
+                <entry key="whitespace_stripping" value="${whitespace_stripping}" />
+                <entry key="number_format" value="${number_format}" />
+                <entry key="boolean_format" value="${boolean_format}" />
+                <entry key="time_format" value="${time_format}" />
+                <entry key="date_format" value="${date_format}" />
+                <entry key="datetime_format" value="${datetime_format}" />
+            </map>
+        </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="xml_escape" value-ref="fmXmlEscape" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+
+</beans>
