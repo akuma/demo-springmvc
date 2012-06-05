@@ -1,7 +1,7 @@
 /*
- * @(#)FrameAction.java    Created on 2010-7-14
+ * @(#)FrameController.java    Created on 2010-7-14
  * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id: FrameAction.java 95 2012-05-17 01:29:17Z wj.huang $
+ * $Id: FrameController.java 95 2012-05-17 01:29:17Z wj.huang $
  */
 package demo.spring.mvc.controller.frame;
 
@@ -28,7 +28,7 @@ import demo.spring.mvc.service.UserService;
  */
 @Controller
 @RequestMapping("/frame")
-public class FrameAction extends BasicController {
+public class FrameController extends BasicController {
 
     @Resource
     private UserService userService;

@@ -1,7 +1,7 @@
 /* 
- * @(#)UserAction.java    Created on 2010-7-14
+ * @(#)UserController.java    Created on 2010-7-14
  * Copyright (c) 2,010 ZDSoft Networks, Inc. All rights reserved.
- * $Id: UserAction.java 95 2012-05-17 01:29:17Z wj.huang $
+ * $Id: UserController.java 95 2012-05-17 01:29:17Z wj.huang $
  */
 package demo.spring.mvc.controller.user;
 
@@ -32,7 +32,7 @@ import nova.util.Pagination;
  */
 @Controller
 @RequestMapping("/user")
-public class UserAction extends BasicController {
+public class UserController extends BasicController {
 
     @Resource
     private UserService userService;

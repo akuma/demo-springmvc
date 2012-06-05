@@ -1,7 +1,7 @@
 /*
- * @(#)HelloWorldAction.java    Created on 2012-3-12
+ * @(#)HelloWorldController.java    Created on 2012-3-12
  * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id: HelloWorldAction.java 92 2012-05-15 09:42:43Z wj.huang $
+ * $Id: HelloWorldController.java 92 2012-05-15 09:42:43Z wj.huang $
  */
 package demo.spring.mvc.controller;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version $Revision: 1.0 $, $Date: 2012-5-31 下午5:33:37 $
  */
 @Controller
-public class HelloWorldAction {
+public class HelloWorldController {
 
     /**
      * Say hello world.
