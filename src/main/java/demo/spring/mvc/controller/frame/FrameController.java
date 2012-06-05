@@ -38,7 +38,7 @@ public class FrameController extends BasicController {
      * 
      * @return view
      */
-    @RequestMapping(value = "index.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "index.htm")
     public String index() {
         return "frame/index";
     }
@@ -48,7 +48,7 @@ public class FrameController extends BasicController {
      * 
      * @return view
      */
-    @RequestMapping(value = "mainMenu.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "mainMenu.htm")
     public String mainMenu() {
         return "frame/mainMenu";
     }
@@ -58,7 +58,7 @@ public class FrameController extends BasicController {
      * 
      * @return view
      */
-    @RequestMapping(value = "welcome.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "welcome.htm")
     public String welcome(Model model) {
         model.addAttribute("timeNow", new Date());
         model.addAttribute(systemInfo);
@@ -70,7 +70,7 @@ public class FrameController extends BasicController {
      * 
      * @return view
      */
-    @RequestMapping(value = "modifyPassword.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "modifyPassword.htm")
     public String viewModifyPassword() {
         return "frame/password";
     }
@@ -109,7 +109,7 @@ public class FrameController extends BasicController {
      * 
      * @return success
      */
-    @RequestMapping(value = "heartbeat.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "heartbeat.htm")
     @ResponseBody
     public void heartbeat() {
     }
