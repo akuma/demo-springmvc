@@ -6,7 +6,7 @@ function removeUser(userId) {
     return;
   }
 
-  ajaxPost("removeUser.htm", "user.id=" + userId, function(result) {
+  ajaxPost("removeUser.htm", "userId=" + userId, function(result) {
     drawMessages(result);
     if (!hasActionErrors(result)) {
       location.reload();
@@ -36,12 +36,12 @@ $(document).ready(function() {
   <@fm.message />
   <div class="description">
   <form name="searchForm" action="listUser.htm" method="get" class="form-search">
-    <label for="username">用户名：</label><input type="input" class="span2" id="username" name="user.username" value="${user.username!?html}" />
-    <label for="realName">真实姓名：</label><input type="input" class="span2" id="realName" name="user.realName" value="${user.realName!?html}" />
+    <label for="username">用户名：</label><input type="input" class="span2" id="username" name="username" value="${user.username!?html}" />
+    <label for="realName">真实姓名：</label><input type="input" class="span2" id="realName" name="realName" value="${user.realName!?html}" />
     <input id="searchBtn" type="submit" class="colorButton" value="  查 询  " />
   </form>
   </div>
-  <@fm.pagination />
+  <@fm.pagination "listUser.htm" />
   <table id="dataTable" class="table table-striped table-bordered table-condensed">
     <thead>
       <tr class="titleTr">
@@ -66,7 +66,7 @@ $(document).ready(function() {
         <td>${user.modifyTime?datetime}</td>
         <td>${user.creationTime?datetime}</td>
         <td>
-          <a class="btn btn-mini btn-primary span1" href="loadUser.htm?user.id=${user.id}">修改</a>
+          <a class="btn btn-mini btn-primary span1" href="loadUser.htm?userId=${user.id}">修改</a>
           <a class="btn btn-mini btn-danger span1" href="javascript:removeUser('${user.id}');">删除</a>
         </td>
       </tr>

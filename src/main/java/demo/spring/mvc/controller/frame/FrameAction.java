@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +40,7 @@ public class FrameAction extends BasicController {
      */
     @RequestMapping(value = "index.htm", method = RequestMethod.GET)
     public String index() {
-        return "index";
+        return "frame/index";
     }
 
     /**
@@ -51,7 +50,7 @@ public class FrameAction extends BasicController {
      */
     @RequestMapping(value = "mainMenu.htm", method = RequestMethod.GET)
     public String mainMenu() {
-        return "mainMenu";
+        return "frame/mainMenu";
     }
 
     /**
@@ -61,8 +60,9 @@ public class FrameAction extends BasicController {
      */
     @RequestMapping(value = "welcome.htm", method = RequestMethod.GET)
     public String welcome(Model model) {
-        model.addAttribute(new Date());
-        return "welcome";
+        model.addAttribute("timeNow", new Date());
+        model.addAttribute(systemInfo);
+        return "frame/welcome";
     }
 
     /**
@@ -72,7 +72,7 @@ public class FrameAction extends BasicController {
      */
     @RequestMapping(value = "modifyPassword.htm", method = RequestMethod.GET)
     public String viewModifyPassword() {
-        return "password";
+        return "frame/password";
     }
 
     /**
@@ -81,26 +81,27 @@ public class FrameAction extends BasicController {
      * @return success
      */
     @RequestMapping(value = "modifyPassword.htm", method = RequestMethod.POST)
-    public String modifyPassword(String password0, String password1, Errors errors, Model model) {
+    @ResponseBody
+    public ResponseMessage modifyPassword(String password0, String password1, Model model) {
         if (StringUtils.isEmpty(password0)) {
-            errors.reject("请输入新密码");
+            addActionError("请输入新密码", model);
         } else if (StringUtils.isEmpty(password1)) {
-            errors.reject("请输入确认密码");
+            addActionError("请输入确认密码", model);
         } else if (!password0.equals(password1)) {
-            errors.reject("密码和确认密码不一致");
+            addActionError("密码和确认密码不一致", model);
         }
 
-        if (errors.hasErrors()) {
-            return null;
+        if (hasErrors(model)) {
+            return getResponseMessage(model);
         }
 
         User user = new User();
         user.setId(getMemoryUser().getId());
         user.setPassword(password0);
         userService.modifyUserNotNull(user);
-        model.addAttribute("messages", "修改密码成功");
+        addActionMessage("修改密码成功", model);
 
-        return null;
+        return getResponseMessage(model);
     }
 
     /**

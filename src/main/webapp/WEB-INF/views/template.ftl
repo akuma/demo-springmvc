@@ -26,14 +26,14 @@
   您的 IP 是 &nbsp;:&nbsp; ${realRemoteAddr!} &nbsp; &nbsp; | &nbsp; &nbsp;
   您登录的用户 &nbsp;:&nbsp; ${(memoryUser.username)!} &nbsp; &nbsp; | &nbsp; &nbsp;
   <a href="${request.contextPath}/frame/welcome.htm">首页</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-  <a href="${request.contextPath}/frame/viewModifyPassword.htm">修改密码</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+  <a href="${request.contextPath}/frame/modifyPassword.htm">修改密码</a> &nbsp; &nbsp; | &nbsp; &nbsp;
   <a href="${request.contextPath}/logout.htm" target="_top">退出</a>
 </div>
 </#macro>
 
 <#macro message>
   <div id="message">
-  <#list (spring.status.errorMessages)! as error>
+  <#list actionErrors! as error>
     <#if error_index == 0>
     <ul>
     </#if>
@@ -71,7 +71,7 @@
 
 <#macro pagination url=request.requestURL needJump=true>
 <#if request.queryString??>
-  <#local pageUrl = url + "?" + request.queryString?replace("&?pageIndex(=[^&]*&?$)?", "", "rs")>
+  <#local pageUrl = url + "?" + request.queryString?replace("&?pageNum(=[^&]*&?$)?", "", "rs")>
 <#else>
   <#local pageUrl = url + "?">
 </#if>
@@ -80,27 +80,27 @@
 </#if>
 
 <div class="pagination_sw">
-共 ${page.rowCount} 条记录&nbsp;&nbsp;这是${page.pageIndex}/${page.pageCount} 页&nbsp;&nbsp;
-<#if (page.pageIndex > 1)>
-<a href="${pageUrl}pageIndex=1">首页</a>&nbsp;&nbsp;<a href="${pageUrl}pageIndex=${page.pageIndex - 1}">上一页</a>&nbsp;&nbsp;
+共 ${page.rowCount} 条记录&nbsp;&nbsp;这是${page.pageNum}/${page.pageCount} 页&nbsp;&nbsp;
+<#if (page.pageNum > 1)>
+<a href="${pageUrl}pageNum=1">首页</a>&nbsp;&nbsp;<a href="${pageUrl}pageNum=${page.pageNum - 1}">上一页</a>&nbsp;&nbsp;
 <#else>
 首页&nbsp;&nbsp;上一页&nbsp;&nbsp;
 </#if>
-<#if (page.pageIndex < page.pageCount)>
-<a href="${pageUrl}pageIndex=${page.pageIndex + 1}">下一页</a>&nbsp;&nbsp;<a href="${pageUrl}pageIndex=${page.pageCount}">末页</a>&nbsp;&nbsp;
+<#if (page.pageNum < page.pageCount)>
+<a href="${pageUrl}pageNum=${page.pageNum + 1}">下一页</a>&nbsp;&nbsp;<a href="${pageUrl}pageNum=${page.pageCount}">末页</a>&nbsp;&nbsp;
 <#else>
 下一页&nbsp;&nbsp;末页&nbsp;&nbsp;
 </#if>
 <#if needJump == true>
-第 <input id="_targetPageIndex_" type="text" class="span1" size="3" maxlength="6" value="${page.pageIndex}" onfocus="this.value=''" onblur="if(this.value=='')this.value='${page.pageIndex}'" onkeyup="if(event.keyCode==13){jumpPage()}"> 页 <a href="javascript:jumpPage()">跳转</a>
+第 <input id="_targetPageNum_" type="text" class="span1" size="3" maxlength="6" value="${page.pageNum}" onfocus="this.value=''" onblur="if(this.value=='')this.value='${page.pageNum}'" onkeyup="if(event.keyCode==13){jumpPage()}"> 页 <a href="javascript:jumpPage()">跳转</a>
 <script type="text/javascript" language="javascript">
 function jumpPage() {
-  var jumpPageIndex = document.getElementById("_targetPageIndex_").value;
-  if (isNaN(parseInt(jumpPageIndex))) {
+  var jumpPageNum = document.getElementById("_targetPageNum_").value;
+  if (isNaN(parseInt(jumpPageNum))) {
     alert("请输入要跳转的页码");
     return;
   }
-  location.href = "${pageUrl}pageIndex=" + jumpPageIndex;
+  location.href = "${pageUrl}pageNum=" + jumpPageNum;
 }
 </script>
 </#if>
@@ -109,7 +109,7 @@ function jumpPage() {
 
 <#macro swPage url=request.requestURL needJump=true>
 <#if request.queryString??>
-  <#local pageUrl = url + "?" + request.queryString?replace("&?pageIndex(=[^&]*&?$)?", "", "rs")>
+  <#local pageUrl = url + "?" + request.queryString?replace("&?page(=[^&]*&?$)?", "", "rs")>
 <#else>
   <#local pageUrl = url + "?">
 </#if>
@@ -130,15 +130,15 @@ function jumpPage() {
 下一页&nbsp;&nbsp;末页&nbsp;&nbsp;
 </#if>
 <#if needJump == true>
-第 <input id="_targetPageIndex_" type="text" size="3" maxlength="6" value="${pager.pageth}" onfocus="this.value=''" onblur="if(this.value=='')this.value='${pager.pageth}'" onkeyup="if(event.keyCode==13){jumpPage()}"> 页 <a href="javascript:jumpPage()">跳转</a>
+第 <input id="_targetPageNum_" type="text" size="3" maxlength="6" value="${pager.pageth}" onfocus="this.value=''" onblur="if(this.value=='')this.value='${pager.pageth}'" onkeyup="if(event.keyCode==13){jumpPage()}"> 页 <a href="javascript:jumpPage()">跳转</a>
 <script type="text/javascript" language="javascript">
 function jumpPage() {
-  var jumpPageIndex = document.getElementById("_targetPageIndex_").value;
-  if (isNaN(parseInt(jumpPageIndex))) {
+  var jumpPageNum = document.getElementById("_targetPageNum_").value;
+  if (isNaN(parseInt(jumpPageNum))) {
     alert("请输入要跳转的页码");
     return;
   }
-  location.href = "${pageUrl}page=" + jumpPageIndex;
+  location.href = "${pageUrl}page=" + jumpPageNum;
 }
 </script>
 </#if>

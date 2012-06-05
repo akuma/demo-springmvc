@@ -1,5 +1,3 @@
-<#import "/spring.ftl" as spring />
-
 <@fm.html>
 <@fm.head title="${(systemInfo.id)!} - Login" style="login.css">
 <script type="text/javascript" src="script/sha1.js"></script>
@@ -35,12 +33,11 @@ $(document).ready(function() {
         <br />
         <span class="dialog-info">欢迎登录</span> <span class="dialog-label">${(systemInfo.name)!}</span><br /><br />
         <form id="loginForm" method="post" action="login.htm">
-          <@spring.bind "user" />
           <@fm.message />
           <table border="0" cellspacing="0" cellpadding="5" width="100%">
             <tr>
               <td align="right" valign="middle" nowrap="nowrap"><span class="dialog-label">用户名:</span></td>
-              <td colspan="2" align="left" valign="middle"><input type="text" id="username" name="username" value="${username!}" style="width:160px" /></td>
+              <td colspan="2" align="left" valign="middle"><input type="text" id="username" name="username" value="${(user.username)!}" style="width:160px" /></td>
             </tr>
             <tr>
               <td align="right" valign="middle" nowrap="nowrap"><span class="dialog-label">密码:</span></td>

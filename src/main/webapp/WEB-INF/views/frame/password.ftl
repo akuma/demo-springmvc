@@ -19,7 +19,7 @@ $(document).ready(function() {
 <@fm.body currentModule="修改密码">
 <div id="titleMain">
   <div class="modules">
-    <div id="current"><a href="" class="current">修改密码</a></div>
+    <div id="current"><a href="modifyPassword.htm" class="current">修改密码</a></div>
   </div>
 </div>
 <div id="tableMain">

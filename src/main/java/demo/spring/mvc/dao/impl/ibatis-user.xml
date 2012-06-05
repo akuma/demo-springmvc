@@ -8,12 +8,13 @@
         <result property="username" column="username" />
         <result property="password" column="password" />
         <result property="realName" column="real_name" />
+        <result property="birthday" column="birthday" />
         <result property="modifyTime" column="modify_time" />
         <result property="creationTime" column="creation_time" />
     </resultMap>
 
     <select id="findUser" resultMap="UserResult">
-        select id, username, password, real_name, modify_time, creation_time
+        select id, username, password, real_name, birthday, modify_time, creation_time
         from demo_user where id = #value#
     </select>
 
@@ -31,6 +32,9 @@
             <isNotEmpty property="realName" prepend="AND">
             real_name = #realName#
             </isNotEmpty>
+            <isNotEmpty property="birthday" prepend="AND">
+            birthday = #birthday#
+            </isNotEmpty>
             <isNotNull property="modifyTime" prepend="AND">
             modify_time = #modifyTime#
             </isNotNull>
@@ -41,7 +45,7 @@
     </sql>
 
     <select id="findUsersByUser" resultMap="UserResult">
-        select id, username, password, real_name, modify_time, creation_time
+        select id, username, password, real_name, birthday, modify_time, creation_time
         from demo_user
         <include refid="findUsersCondition"/>
     </select>
@@ -52,7 +56,7 @@
     </select>
 
     <select id="findUserMap" parameterClass="list" resultMap="UserResult">
-        select id, username, password, real_name, modify_time, creation_time
+        select id, username, password, real_name, birthday, modify_time, creation_time
         from demo_user
         where id in
         <dynamic>
@@ -61,19 +65,21 @@
     </select>
 
     <insert id="insertUser">
-        insert into demo_user(username, password, real_name, modify_time, creation_time)
-        values(#username#, #password#, #realName#, #modifyTime#, #creationTime#)
+        insert into demo_user(username, password, real_name, birthday, modify_time, creation_time)
+        values(#username#, #password#, #realName#, #birthday#, #modifyTime#, #creationTime#)
         <selectKey resultClass="java.lang.Integer" keyProperty="id">
             select @@identity
         </selectKey>
     </insert>
 
     <update id="updateUser">
-        update demo_user set username = #username#, password = #password#, real_name = #realName# where id = #id#
+        update demo_user
+        set username = #username#, password = #password#, real_name = #realName#, birthday = #birthday#
+        where id = #id#
     </update>
 
     <update id="updateUserNotNull">
-        update demo_user set id = #id#
+        update demo_user set modify_time = getdate()
         <isNotNull prepend=", " property="username">
             username = #username#
         </isNotNull>
@@ -83,8 +89,8 @@
         <isNotNull prepend=", " property="realName">
             real_name = #realName#
         </isNotNull>
-        <isNotNull prepend=", " property="modifyTime">
-            modify_time = #modifyTime#
+        <isNotNull prepend=", " property="birthday">
+            birthday = #birthday#
         </isNotNull>
         where id = #id#
     </update>

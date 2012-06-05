@@ -30,7 +30,7 @@ $(document).ready(function() {
     });
   });
 
-  $("#birthday").datepicker();
+  $("#birthday").datepicker({dateFormat: "yy-mm-dd", appendText: " (yyyy-mm-dd)"});
 
   $("#backBtn").click(function() {
     location.href = "listUser.htm";
@@ -65,23 +65,23 @@ function prepare() {
 <div id="tableMain">
   <@fm.message />
   <form id="dataForm" class="form-horizontal">
-    <input type="hidden" id="userId" name="user.id" value="${user.id!}" />
+    <input type="hidden" id="userId" name="id" value="${user.id!}" />
     <table id="dataTable" class="table table-bordered">
       <tr>
         <td width="15%" class="titleTd">用户名</td>
-        <td><input type="text" id="username" name="user.username" value="${user.username!}" /></td>
+        <td><input type="text" id="username" name="username" value="${user.username!}" /></td>
       </tr>
       <tr>
         <td class="titleTd">密码</td>
-        <td><input type="password" name="user.password" value="${user.password!}" /></td>
+        <td><input type="password" name="password" value="${user.password!}" /></td>
       </tr>
       <tr>
         <td class="titleTd">真实姓名</td>
-        <td><input type="text" name="user.realName" value="${user.realName!}" /></td>
+        <td><input type="text" name="realName" value="${user.realName!}" /></td>
       </tr>
       <tr>
         <td class="titleTd">出生日期</td>
-        <td><input type="text" id="birthday" name="user.birthday" value="" /></td>
+        <td><input type="text" id="birthday" name="birthday" value="${(user.birthday?date)!}" /></td>
       </tr>
     </table>
     <div id="buttonLeft" class=".form-actions">

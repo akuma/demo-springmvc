@@ -23,6 +23,7 @@ public class User implements Serializable {
     private String username; // 字段 username
     private String password; // 字段 password
     private String realName; // 字段 real_name
+    private Date birthday; // 字段 birthday
     private Date modifyTime; // 字段 modify_time
     private Date creationTime; // 字段 creation_time
 
@@ -81,6 +82,14 @@ public class User implements Serializable {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public Date getBirthday() {
+        return (birthday == null ? null : new Date(birthday.getTime()));
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = (birthday == null ? null : new Date(birthday.getTime()));
     }
 
     public Date getModifyTime() {

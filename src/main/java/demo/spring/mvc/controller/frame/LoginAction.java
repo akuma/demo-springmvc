@@ -12,7 +12,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,13 +39,13 @@ public class LoginAction extends BasicController {
     /**
      * 显示登录页面。
      * 
-     * @return view
+     * @return view name
      */
     @RequestMapping(value = "index.htm", method = RequestMethod.GET)
     public String index(HttpSession session, Model model) {
         Boolean loginState = (Boolean) session.getAttribute(SESSION_KEY_LOGINED);
         if (loginState != null && loginState.booleanValue()) {
-            model.addAttribute("已经超时请重新登录");
+            addActionError("已经超时请重新登录", model);
         }
 
         model.addAttribute(systemInfo);
@@ -57,38 +56,37 @@ public class LoginAction extends BasicController {
     /**
      * 处理登录系统操作。
      * 
-     * @return view
+     * @return view name
      */
     @RequestMapping(value = "login.htm", method = RequestMethod.POST)
-    public String login(@ModelAttribute User user, Errors errors, HttpSession session) {
+    public String login(@ModelAttribute User user, HttpSession session, Model model) {
         if (StringUtils.isEmpty(user.getUsername())) {
-            errors.reject("username.required", "请输入用户名");
+            addActionError("请输入用户名", model);
             return "index";
         }
 
         if (StringUtils.isEmpty(user.getPassword())) {
-            errors.reject("password.required", "请输入密码");
+            addActionError("请输入密码", model);
             return "index";
         }
 
-        User _user = userService.getUserByUsername(user.getUsername());
-        if (_user == null) {
-            errors.reject("username.password.wrong", "用户名不存在或密码错误");
+        User dbUser = userService.getUserByUsername(user.getUsername());
+        if (dbUser == null) {
+            addActionError("用户名不存在或密码错误", model);
             return "index";
         }
 
-        String passwordEncoded = user.getUsername();
-        String userPasswordEncoded = DigestUtils.shaHex(_user.getPassword());
+        String passwordEncoded = user.getPassword();
+        String userPasswordEncoded = DigestUtils.shaHex(dbUser.getPassword());
         if (!passwordEncoded.equals(userPasswordEncoded)) {
-            // errors.reject("username.password.wrong", "用户名不存在或密码错误");
-            // return "index";
+            addActionError("用户名不存在或密码错误", model);
+            return "index";
         }
 
         MemoryUser memoryUser = new MemoryUser();
-        memoryUser.setId(_user.getId());
-        memoryUser.setUsername(_user.getUsername());
-        memoryUser.setRealName(_user.getRealName());
-
+        memoryUser.setId(dbUser.getId());
+        memoryUser.setUsername(dbUser.getUsername());
+        memoryUser.setRealName(dbUser.getRealName());
         session.setAttribute(MemoryUser.KEY, memoryUser);
 
         return "redirect:/frame";
@@ -97,7 +95,7 @@ public class LoginAction extends BasicController {
     /**
      * 处理退出系统操作并重定向到登录页面。
      * 
-     * @return view
+     * @return view name
      */
     @RequestMapping(value = "logout.htm", method = RequestMethod.GET)
     public String logout(HttpSession session) {
