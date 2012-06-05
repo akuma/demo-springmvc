@@ -41,7 +41,7 @@ public class LoginController extends BasicController {
      * 
      * @return view name
      */
-    @RequestMapping(value = "index.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "index.htm")
     public String index(HttpSession session, Model model) {
         Boolean loginState = (Boolean) session.getAttribute(SESSION_KEY_LOGINED);
         if (loginState != null && loginState.booleanValue()) {
@@ -49,7 +49,6 @@ public class LoginController extends BasicController {
         }
 
         model.addAttribute(systemInfo);
-
         return "index";
     }
 
@@ -97,7 +96,7 @@ public class LoginController extends BasicController {
      * 
      * @return view name
      */
-    @RequestMapping(value = "logout.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "logout.htm")
     public String logout(HttpSession session) {
         session.removeAttribute(MemoryUser.KEY);
         session.invalidate();
