@@ -1,4 +1,4 @@
-<#if user.username??>
+<#if (user.id)??>
   <#assign moduleName="修改用户信息" isModify=true postAction="modifyUser.htm">
 <#else>
   <#assign moduleName="新增用户信息" isModify=false postAction="addUser.htm">
@@ -65,19 +65,19 @@ function prepare() {
 <div id="tableMain">
   <@fm.message />
   <form id="dataForm" class="form-horizontal">
-    <input type="hidden" id="userId" name="id" value="${user.id!}" />
+    <input type="hidden" id="userId" name="id" value="${(user.id)!}" />
     <table id="dataTable" class="table table-bordered">
       <tr>
         <td width="15%" class="titleTd">用户名</td>
-        <td><input type="text" id="username" name="username" value="${user.username!}" /></td>
+        <td><input type="text" id="username" name="username" value="${(user.username)!}" /></td>
       </tr>
       <tr>
         <td class="titleTd">密码</td>
-        <td><input type="password" name="password" value="${user.password!}" /></td>
+        <td><input type="password" name="password" value="${(user.password)!}" /></td>
       </tr>
       <tr>
         <td class="titleTd">真实姓名</td>
-        <td><input type="text" name="realName" value="${user.realName!}" /></td>
+        <td><input type="text" name="realName" value="${(user.realName)!}" /></td>
       </tr>
       <tr>
         <td class="titleTd">出生日期</td>

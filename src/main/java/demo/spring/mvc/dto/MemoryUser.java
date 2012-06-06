@@ -18,7 +18,7 @@ public class MemoryUser implements Serializable {
     /**
      * MemoryUser 对象在 session 中的 key 值。
      */
-    public static final String KEY = MemoryUser.class.getName();
+    public static final String KEY = "memoryUser";
 
     private static final long serialVersionUID = -6786128717270367146L;
 

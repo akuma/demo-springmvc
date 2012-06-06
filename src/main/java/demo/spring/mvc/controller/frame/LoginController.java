@@ -6,15 +6,17 @@
 package demo.spring.mvc.controller.frame;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 
 import demo.spring.mvc.controller.BasicController;
 import demo.spring.mvc.dto.MemoryUser;
@@ -31,7 +33,7 @@ import demo.spring.mvc.service.UserService;
 @RequestMapping("/")
 public class LoginController extends BasicController {
 
-    public static final String SESSION_KEY_LOGINED = "demo.spring.mvc.controller.frame.LoginController.KEY";
+    public static final String SESSION_KEY_NOT_LOGIN = "demo.spring.mvc.controller.frame.LoginController.NOT_LOGIN";
 
     @Resource
     private UserService userService;
@@ -39,26 +41,35 @@ public class LoginController extends BasicController {
     /**
      * 显示登录页面。
      * 
+     * @param request
+     *            Spring WebRequest Object
+     * @param model
+     *            Spring Model Object
      * @return view name
      */
-    @RequestMapping(value = "index.htm")
-    public String index(HttpSession session, Model model) {
-        Boolean loginState = (Boolean) session.getAttribute(SESSION_KEY_LOGINED);
+    @RequestMapping({ "/", "index.htm" })
+    public String index(WebRequest request, Model model) {
+        Boolean loginState = (Boolean) request.getAttribute(SESSION_KEY_NOT_LOGIN, RequestAttributes.SCOPE_SESSION);
         if (loginState != null && loginState.booleanValue()) {
             addActionError("已经超时请重新登录", model);
         }
 
-        model.addAttribute(systemInfo);
         return "index";
     }
 
     /**
      * 处理登录系统操作。
      * 
+     * @param user
+     *            用户登录认证信息
+     * @param request
+     *            Spring WebRequest Object
+     * @param model
+     *            Spring Model Object
      * @return view name
      */
     @RequestMapping(value = "login.htm", method = RequestMethod.POST)
-    public String login(@ModelAttribute User user, HttpSession session, Model model) {
+    public String login(User user, WebRequest request, Model model) {
         if (StringUtils.isEmpty(user.getUsername())) {
             addActionError("请输入用户名", model);
             return "index";
@@ -86,20 +97,22 @@ public class LoginController extends BasicController {
         memoryUser.setId(dbUser.getId());
         memoryUser.setUsername(dbUser.getUsername());
         memoryUser.setRealName(dbUser.getRealName());
-        session.setAttribute(MemoryUser.KEY, memoryUser);
+        request.setAttribute(MemoryUser.KEY, memoryUser, RequestAttributes.SCOPE_SESSION);
 
-        return "redirect:/frame";
+        return "redirect:/frame/";
     }
 
     /**
      * 处理退出系统操作并重定向到登录页面。
      * 
+     * @param request
+     *            Spring NativeWebRequest Object
      * @return view name
      */
-    @RequestMapping(value = "logout.htm")
-    public String logout(HttpSession session) {
-        session.removeAttribute(MemoryUser.KEY);
-        session.invalidate();
+    @RequestMapping("logout.htm")
+    public String logout(NativeWebRequest request, Model model) {
+        request.removeAttribute(MemoryUser.KEY, RequestAttributes.SCOPE_SESSION);
+        request.getNativeRequest(HttpServletRequest.class).getSession().invalidate();
         return "redirect:/";
     }
 

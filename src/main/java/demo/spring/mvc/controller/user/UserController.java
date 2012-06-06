@@ -10,15 +10,17 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import demo.spring.mvc.controller.BasicController;
+import demo.spring.mvc.controller.ResponseMessage;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
 import nova.dao.DataExistsException;
@@ -35,37 +37,56 @@ import nova.util.Pagination;
 public class UserController extends BasicController {
 
     @Resource
+    private UserValidator userValidator;
+
+    @Resource
     private UserService userService;
 
     /**
-     * 显示 User 列表.
+     * 显示用户列表。
      * 
+     * @param user
+     *            用户查询信息
+     * @param pagination
+     *            分页对象
+     * @param model
+     *            Spring Model Object
      * @return view name
      */
-    @RequestMapping(value = "listUser.htm")
-    public String listUser(@ModelAttribute User user, @ModelAttribute("page") Pagination pagination, Model model) {
-        pagination.setPageSize(10);
-        List<User> users = userService.getUsers(user, pagination);
+    @RequestMapping("listUser.htm")
+    public String listUser(User user, String pageNum, Model model) {
+        Pagination page = new Pagination();
+        page.setPageSize(10);
+        page.setPageNum(NumberUtils.toInt(pageNum, 1));
+        List<User> users = userService.getUsers(user, page);
+
+        model.addAttribute("page", page);
         model.addAttribute("users", users);
         return "user/userList";
     }
 
     /**
-     * 显示新增 User 页面 .
+     * 显示新增用户页面。
      * 
      * @return view name
      */
-    @RequestMapping(value = "newUser.htm")
-    public String newUser(@ModelAttribute User user) {
+    @RequestMapping("newUser.htm")
+    public String newUser() {
         return "user/user";
     }
 
     /**
-     * 显示修改 User 页面.
+     * 显示修改用户页面。
      * 
+     * @param userId
+     *            用户　ID
+     * @param model
+     *            Spring Model Object
+     * @param redirectAttributes
+     *            Spring RedirectAttributes Object
      * @return view name
      */
-    @RequestMapping(value = "loadUser.htm")
+    @RequestMapping("loadUser.htm")
     public String loadUser(String userId, Model model, RedirectAttributes redirectAttributes) {
         if (userId == null) {
             addActionError("请选择您要修改的用户", redirectAttributes);
@@ -84,20 +105,34 @@ public class UserController extends BasicController {
     }
 
     /**
-     * 添加 User 操作.
+     * 添加用户操作。
      * 
-     * @return view name
+     * @param user
+     *            用户信息
+     * @param result
+     *            Spring BindingResult Object
+     * @param model
+     *            Spring Model Object
+     * @return 响应消息
      */
     @RequestMapping(value = "addUser.htm", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage addUser(User user, Model model) {
-        if (StringUtils.isEmpty(user.getUsername())) {
-            addActionError("用户名不能为空", model);
+    public ResponseMessage addUser(User user, BindingResult result, Model model) {
+        userValidator.validate(user, result);
+        if (result.hasErrors()) {
+            // addActionError(result.getFieldError().getCode(), model);
+            // addActionError(result.getGlobalError().getDefaultMessage(), model);
+            // addActionError(result.getAllErrors().size() + "", model);
+            return getResponseMessage(result);
         }
 
-        if (hasErrors(model)) {
-            return getResponseMessage(model);
-        }
+        // if (StringUtils.isEmpty(user.getUsername())) {
+        // addActionError("用户名不能为空", model);
+        // }
+        //
+        // if (hasErrors(model)) {
+        // return getResponseMessage(model);
+        // }
 
         try {
             userService.addUser(user);
@@ -110,9 +145,13 @@ public class UserController extends BasicController {
     }
 
     /**
-     * 修改 User 操作.
+     * 修改用户操作。
      * 
-     * @return view name
+     * @param user
+     *            用户信息
+     * @param model
+     *            Spring Model Object
+     * @return 响应消息
      */
     @RequestMapping(value = "modifyUser.htm", method = RequestMethod.POST)
     @ResponseBody
@@ -136,9 +175,13 @@ public class UserController extends BasicController {
     }
 
     /**
-     * 删除 User 操作.
+     * 删除用户操作。
      * 
-     * @return view name
+     * @param userId
+     *            用户 ID
+     * @param model
+     *            Spring Model Object
+     * @return 响应消息
      */
     @RequestMapping(value = "removeUser.htm", method = RequestMethod.POST)
     @ResponseBody

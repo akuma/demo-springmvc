@@ -18,14 +18,12 @@
 
     <context:annotation-config />
     <context:property-placeholder location="classpath:jdbc.properties" />
-    <context:component-scan base-package="demo.spring.mvc.controller" />
     <context:component-scan base-package="demo.spring.mvc.service" />
     <context:component-scan base-package="demo.spring.mvc.dao" />
     <context:component-scan base-package="demo.spring.mvc.util" />
 
     <util:properties id="serverProperties" location="classpath:server.properties" />
 
-    <mvc:annotation-driven />
     <aop:aspectj-autoproxy />
 
     <aop:config>

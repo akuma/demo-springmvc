@@ -7,13 +7,13 @@
   <div id="message"></div>
   <table id="dataTable" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr class="titleTr">
-      <td>${systemInfo.id}</td>
+      <td>${(systemInfo.id)?default("$\{id}")}</td>
     </tr>
     <tr>
-      <td>${systemInfo.name} 应用的描述信息</td>
+      <td>${(systemInfo.name)?default("$\{name}")} 应用的描述信息</td>
     </tr>
   </table>
-  <div align="center">Copyright &copy; ${timeNow?string("yyyy")} [${systemInfo.copyright}] All Rights Reserved.</div>
+  <div align="center">Copyright &copy; ${timeNow?string("yyyy")} [${(systemInfo.copyright)?default("$\{copyright}")}] All Rights Reserved.</div>
 </div>
 </@fm.body>
 </@fm.html>

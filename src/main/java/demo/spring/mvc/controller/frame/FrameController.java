@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import demo.spring.mvc.controller.BasicController;
+import demo.spring.mvc.controller.ResponseMessage;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
 
@@ -36,9 +37,9 @@ public class FrameController extends BasicController {
     /**
      * 显示登录后的框架首页。
      * 
-     * @return view
+     * @return view name
      */
-    @RequestMapping(value = "index.htm")
+    @RequestMapping({ "/", "index.htm" })
     public String index() {
         return "frame/index";
     }
@@ -46,9 +47,9 @@ public class FrameController extends BasicController {
     /**
      * 显示左侧菜单列表页。
      * 
-     * @return view
+     * @return view name
      */
-    @RequestMapping(value = "mainMenu.htm")
+    @RequestMapping("mainMenu.htm")
     public String mainMenu() {
         return "frame/mainMenu";
     }
@@ -56,21 +57,22 @@ public class FrameController extends BasicController {
     /**
      * 显示欢迎页面。
      * 
-     * @return view
+     * @param model
+     *            Spring Model Object
+     * @return view name
      */
-    @RequestMapping(value = "welcome.htm")
+    @RequestMapping("welcome.htm")
     public String welcome(Model model) {
         model.addAttribute("timeNow", new Date());
-        model.addAttribute(systemInfo);
         return "frame/welcome";
     }
 
     /**
      * 显示密码修改页面。
      * 
-     * @return view
+     * @return view name
      */
-    @RequestMapping(value = "modifyPassword.htm")
+    @RequestMapping("modifyPassword.htm")
     public String viewModifyPassword() {
         return "frame/password";
     }
@@ -78,7 +80,13 @@ public class FrameController extends BasicController {
     /**
      * 处理密码修改操作。
      * 
-     * @return success
+     * @param password0
+     *            新密码
+     * @param password1
+     *            确认密码
+     * @param model
+     *            Spring Model Object
+     * @return 响应消息
      */
     @RequestMapping(value = "modifyPassword.htm", method = RequestMethod.POST)
     @ResponseBody
@@ -106,10 +114,8 @@ public class FrameController extends BasicController {
 
     /**
      * 心跳方法，什么都不处理，只是为了保持用户 session 不过期。
-     * 
-     * @return success
      */
-    @RequestMapping(value = "heartbeat.htm")
+    @RequestMapping("heartbeat.htm")
     @ResponseBody
     public void heartbeat() {
     }
