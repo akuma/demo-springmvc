@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import demo.spring.mvc.controller.frame.LoginController;
 import demo.spring.mvc.dto.MemoryUser;
 import nova.util.ServletUtils;
 
@@ -37,6 +38,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         } else {
             response.sendRedirect(ServletUtils.getWebsiteRoot(request));
         }
+
+        // 设置用户尚未登录的标记到 Session 中，用于首页提示用户：已经超时请重新登录
+        request.getSession().setAttribute(LoginController.SESSION_KEY_NOT_LOGIN, true);
 
         return false;
     }

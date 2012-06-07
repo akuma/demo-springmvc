@@ -49,9 +49,11 @@ public class LoginController extends BasicController {
      */
     @RequestMapping({ "/", "index.htm" })
     public String index(WebRequest request, Model model) {
+        // 获取用户尚未登录的标记，如果存在，则给出提示信息并清除该标记
         Boolean loginState = (Boolean) request.getAttribute(SESSION_KEY_NOT_LOGIN, RequestAttributes.SCOPE_SESSION);
         if (loginState != null && loginState.booleanValue()) {
             addActionError("已经超时请重新登录", model);
+            request.removeAttribute(SESSION_KEY_NOT_LOGIN, RequestAttributes.SCOPE_SESSION);
         }
 
         return "index";
