@@ -1,8 +1,7 @@
 <@fm.html>
 <@fm.simpleHead title="Menu">
 <link type="text/css" href="${request.contextPath}/css/menu.css" rel="stylesheet" />
-<script type="text/javascript" src="${request.contextPath}/script/jquery.min.js"></script>
-<script type="text/javascript" src="${request.contextPath}/script/utils.js"></script>
+<@fm.jqueryScript />
 <script type="text/javascript" language="javascript">
 function doHeartbeat() {
   ajaxPost("heartbeat.htm", null, function(result) {

@@ -13,12 +13,16 @@
 <link type="text/css" href="${request.contextPath}/css/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
 <link type="text/css" href="${request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
 <link type="text/css" href="${request.contextPath}/css/bootstrap-responsive.min.css" rel="stylesheet" />
-<script src="${request.contextPath}/script/jquery-1.7.1.min.js"></script>
-<script src="${request.contextPath}/script/jquery-ui-1.8.18.custom.min.js"></script>
+<@jqueryScript />
 <script src="${request.contextPath}/script/bootstrap.min.js"></script>
-<script src="${request.contextPath}/script/utils.js"></script>
 <#nested>
 </head>
+</#macro>
+
+<#macro jqueryScript>
+<script src="${request.contextPath}/script/jquery-1.7.2.min.js"></script>
+<script src="${request.contextPath}/script/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="${request.contextPath}/script/utils.js"></script>
 </#macro>
 
 <#macro loginInfo>
