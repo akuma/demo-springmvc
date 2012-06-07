@@ -21,7 +21,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import nova.util.ServletUtils;
 
 /**
- * 拦截 <code>Controller</code> 方法，将公共数据作为属性添加到请求信息中的拦截器。 主要用于页面上通用信息展示，这些信息不适合交给 <code>Controller</code> 去设置。
+ * 拦截 <code>Controller</code> 方法，将公共数据作为属性添加到 Spring <code>Model</code> 对象中的拦截器。 <br>
+ * 主要用于页面上通用信息的展示，这些信息不适合交给 <code>Controller</code> 去设置。
  * 
  * <p>
  * 默认已经添加的属性是：
@@ -57,6 +58,7 @@ public class CommonModelAttributeInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
+        // 如果不存在 ModelAndView 或者 ModelAndView 里没有指定 View，则直接返回
         if (modelAndView == null || !modelAndView.hasView()) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Request {} has no modelAndView.", request.getRequestURI());
@@ -71,12 +73,15 @@ public class CommonModelAttributeInterceptor extends HandlerInterceptorAdapter {
             logger.debug("Request {} {} a redirect uri.", request.getRequestURI(), isRedirectView ? "is" : "is not");
         }
 
-        if (!isRedirectView) {
-            addCommonModelData(request, modelAndView);
+        // 如果 ModelAndView 是 Redirect 方式，则直接返回
+        if (isRedirectView) {
+            return;
+        }
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("Added common model data for {}.", request.getRequestURI());
-            }
+        // 添加公共属性到 Model 中
+        addCommonModelData(request, modelAndView);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Added common model data for {}.", request.getRequestURI());
         }
     }
 
