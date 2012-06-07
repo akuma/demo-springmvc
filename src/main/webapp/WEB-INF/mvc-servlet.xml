@@ -10,7 +10,7 @@
 
     <context:component-scan base-package="demo.spring.mvc.controller" />
 
-    <mvc:annotation-driven conversion-service="conversionService" />
+    <mvc:annotation-driven conversion-service="conversionService" ignoreDefaultModelOnRedirect="true" />
 
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
