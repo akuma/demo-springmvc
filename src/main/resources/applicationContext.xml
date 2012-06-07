@@ -22,7 +22,7 @@
     <context:component-scan base-package="demo.spring.mvc.dao" />
     <context:component-scan base-package="demo.spring.mvc.util" />
 
-    <util:properties id="serverProperties" location="classpath:server.properties" />
+    <util:properties id="serverProperties" location="classpath:messageResources.properties" />
 
     <aop:aspectj-autoproxy />
 
