@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import demo.spring.mvc.controller.BasicController;
-import demo.spring.mvc.controller.ResponseMessage;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
 import nova.dao.DataExistsException;
+import nova.spring.mvc.ResponseMessage;
 import nova.util.Pagination;
 
 /**

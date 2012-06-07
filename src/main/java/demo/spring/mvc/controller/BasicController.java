@@ -9,6 +9,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import demo.spring.mvc.dto.MemoryUser;
+import nova.spring.mvc.AbstractController;
 
 /**
  * 系统中所有 Controller 类的基类。
