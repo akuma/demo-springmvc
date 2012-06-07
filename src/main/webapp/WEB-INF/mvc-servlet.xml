@@ -27,6 +27,10 @@
             <mvc:mapping path="/**/*.htm" />
             <ref bean="commonModelAttributeInterceptor" />
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/*/*.htm" />
+            <bean class="demo.spring.mvc.interceptor.AuthInterceptor" />
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <bean id="commonModelAttributeInterceptor" class="demo.spring.mvc.interceptor.CommonModelAttributeInterceptor">
