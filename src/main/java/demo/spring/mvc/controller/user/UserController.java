@@ -120,19 +120,8 @@ public class UserController extends BasicController {
     public ResponseMessage addUser(User user, BindingResult result, Model model) {
         userValidator.validate(user, result);
         if (result.hasErrors()) {
-            // addActionError(result.getFieldError().getCode(), model);
-            // addActionError(result.getGlobalError().getDefaultMessage(), model);
-            // addActionError(result.getAllErrors().size() + "", model);
             return getResponseMessage(result);
         }
-
-        // if (StringUtils.isEmpty(user.getUsername())) {
-        // addActionError("用户名不能为空", model);
-        // }
-        //
-        // if (hasErrors(model)) {
-        // return getResponseMessage(model);
-        // }
 
         try {
             userService.addUser(user);
@@ -155,13 +144,10 @@ public class UserController extends BasicController {
      */
     @RequestMapping(value = "modifyUser.htm", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage modifyUser(User user, Model model) {
-        if (StringUtils.isEmpty(user.getUsername())) {
-            addActionError("用户名不能为空", model);
-        }
-
-        if (hasErrors(model)) {
-            return getResponseMessage(model);
+    public ResponseMessage modifyUser(User user, BindingResult result, Model model) {
+        userValidator.validate(user, result);
+        if (result.hasErrors()) {
+            return getResponseMessage(result);
         }
 
         try {
