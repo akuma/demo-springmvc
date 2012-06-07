@@ -7,6 +7,7 @@ package demo.spring.mvc.interceptor;
 
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +21,30 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import nova.util.ServletUtils;
 
 /**
+ * 拦截 <code>Controller</code> 方法，将公共数据作为属性添加到请求信息中的拦截器。 主要用于页面上通用信息展示，这些信息不适合交给 <code>Controller</code> 去设置。
+ * 
+ * <p>
+ * 默认已经添加的属性是：
+ * 
+ * <table border="1" cellpadding="5" cellspacing="1">
+ * <tr>
+ * <td>属性名</td>
+ * <td>属性值</td>
+ * </tr>
+ * <tr>
+ * <td>realRemoteAddr</td>
+ * <td>客户端真实 IP 地址（如果使用了代理服务器，直接使用 {@link ServletRequest#getRemoteAddr()} 获取到的地址是代理服务器的地址），例如： 60.190.244.158</td>
+ * </tr>
+ * </table>
+ * 
+ * <p>
+ * <b>注意： <code>Controller</code> 的方法必须要满足以下条件才会被拦截：</b>
+ * 
+ * <ul>
+ * <li>返回结果是 <code>ModelAndView</code> 对象或者 <code>View</code> 名称</li>
+ * <li>请求方式不能是 Redirect 方式的</li>
+ * </ul>
+ * 
  * @author wj.huang
  * @version $Revision: 1.0 $, $Date: 2012-6-6 下午4:17:16 $
  */
@@ -32,25 +57,26 @@ public class CommonModelAttributeInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-        if (!modelAndView.hasView()) {
+        if (modelAndView == null || !modelAndView.hasView()) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Request {} has no modelAndView.", request.getRequestURI());
+            }
             return;
         }
 
         String viewName = modelAndView.getViewName();
         boolean isRedirectView = (modelAndView.getView() instanceof RedirectView)
                 || (viewName != null && viewName.startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX));
+        if (logger.isDebugEnabled()) {
+            logger.debug("Request {} {} a redirect uri.", request.getRequestURI(), isRedirectView ? "is" : "is not");
+        }
 
-        logger.debug("{} {} a redirect uri.", request.getRequestURI(), isRedirectView ? "is" : "is not");
-
-        // boolean isViewObject = modelAndView.getView() != null;
-        // boolean viewNameStartsWithRedirect = viewName != null
-        // && viewName.startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX);
-        // logger.debug("isRedirectView: {}, isViewObject: {}, viewNameStartsWithRedirect: {}", new Object[] {
-        // isRedirectView, isViewObject, viewNameStartsWithRedirect });
-
-        // if ((isViewObject && !isRedirectView) || (!isViewObject && !viewNameStartsWithRedirect)) {
         if (!isRedirectView) {
             addCommonModelData(request, modelAndView);
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Added common model data for {}.", request.getRequestURI());
+            }
         }
     }
 
