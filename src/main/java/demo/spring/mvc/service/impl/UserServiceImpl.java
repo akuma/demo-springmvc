@@ -11,8 +11,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import demo.spring.mvc.dao.UserDao;
