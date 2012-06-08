@@ -5,6 +5,8 @@
  */
 package demo.spring.mvc.interceptor;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,12 +31,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (ServletUtils.isAjaxRequest(request)) {
-            // 这里特别需要注意两点，否则 jQuery 解析响应结果时会出现异常：
-            // 1. 返回的响应消息中不能带有回车，所以使用 print() 方法，而不是 println()
-            // 2. 属性和值要使用双引号，而不是单引号
-            response.setContentType("application/json");
-            response.getWriter().print("{\"script\":\"top.location.href=location.href\"}");
-            response.getWriter().flush();
+            printJsonResponse(response);
         } else {
             response.sendRedirect(ServletUtils.getWebsiteRoot(request));
         }
@@ -43,6 +40,23 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         request.getSession().setAttribute(LoginController.SESSION_KEY_NOT_LOGIN, true);
 
         return false;
+    }
+
+    /**
+     * 输出 json 格式的刷新页面的字符串到响应中。
+     * 
+     * @param response
+     *            HTTP 响应对象
+     * @throws IOException
+     *             IO 操作异常时抛出
+     */
+    private void printJsonResponse(HttpServletResponse response) throws IOException {
+        // 这里特别需要注意两点，否则 jQuery 解析响应结果时会出现异常：
+        // 1. 返回的响应消息中不能带有回车，所以使用 print() 方法，而不是 println()
+        // 2. 属性和值要使用双引号，而不是单引号
+        response.setContentType("application/json");
+        response.getWriter().print("{\"script\":\"top.location.href=location.href\"}");
+        response.getWriter().flush();
     }
 
 }
