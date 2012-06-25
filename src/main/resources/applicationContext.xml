@@ -56,9 +56,9 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="sqlExecutor" class="nova.orm.ibatis.LimitSqlExecutor">
+    <bean id="sqlExecutor" class="com.guomi.meazza.orm.ibatis.LimitSqlExecutor">
         <property name="dialect">
-            <bean class="nova.dao.SqlServerDialect" />
+            <bean class="com.guomi.meazza.dao.MySqlDialect" />
         </property>
     </bean>
 

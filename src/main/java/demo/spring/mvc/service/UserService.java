@@ -8,8 +8,9 @@ package demo.spring.mvc.service;
 import java.io.Serializable;
 import java.util.List;
 
+import com.guomi.meazza.util.Pagination;
+
 import demo.spring.mvc.entity.User;
-import nova.util.Pagination;
 
 /**
  * UserService 接口。

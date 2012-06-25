@@ -13,10 +13,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.guomi.meazza.orm.ibatis.IBatisBasicDao;
+import com.guomi.meazza.util.Pagination;
+
 import demo.spring.mvc.dao.UserDao;
 import demo.spring.mvc.entity.User;
-import nova.orm.ibatis.IBatisBasicDao;
-import nova.util.Pagination;
 
 /**
  * UserDaoImpl 实现类。

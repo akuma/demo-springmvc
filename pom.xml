@@ -9,8 +9,8 @@
     <description>A demo for demonstrating Spring MVC Framework.</description>
 
     <properties>
-        <maven.compile.source>1.6</maven.compile.source>
-        <maven.compile.target>1.6</maven.compile.target>
+        <maven.compile.source>1.7</maven.compile.source>
+        <maven.compile.target>1.7</maven.compile.target>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -21,10 +21,10 @@
         <spring.version>3.1.1.RELEASE</spring.version>
         <ibatis.version>2.3.4.726</ibatis.version>
         <freemarker.version>2.3.19</freemarker.version>
-        <nova.version>0.0.3</nova.version>
+        <meazza.version>0.0.4</meazza.version>
 
         <webapp.contextPath>/springmvc</webapp.contextPath>
-        <webapp.port>80</webapp.port>
+        <webapp.port>8080</webapp.port>
     </properties>
 
     <dependencies>
@@ -84,9 +84,9 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sourceforge.jtds</groupId>
-            <artifactId>jtds</artifactId>
-            <version>1.2.4</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.20</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.log4jdbc</groupId>
@@ -134,9 +134,9 @@
         </dependency>
 
         <dependency>
-            <groupId>nova</groupId>
-            <artifactId>nova</artifactId>
-            <version>${nova.version}</version>
+            <groupId>com.guomi.meazza</groupId>
+            <artifactId>meazza</artifactId>
+            <version>${meazza.version}</version>
         </dependency>
     </dependencies>
 
@@ -156,10 +156,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compile.source}</source>
+                    <target>${maven.compile.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <debug>true</debug>
                     <optimize>true</optimize>

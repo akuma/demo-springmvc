@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.guomi.meazza.util.ServletUtils;
+
 import demo.spring.mvc.controller.frame.LoginController;
 import demo.spring.mvc.dto.MemoryUser;
-import nova.util.ServletUtils;
 
 /**
  * 权限验证拦截器。

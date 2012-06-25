@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import com.guomi.meazza.util.Pagination;
+
 import demo.spring.mvc.entity.User;
-import nova.util.Pagination;
 
 /**
  * UserDao 接口.

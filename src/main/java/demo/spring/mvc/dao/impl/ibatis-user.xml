@@ -45,8 +45,7 @@
     </sql>
 
     <select id="findUsersByUser" resultMap="UserResult">
-        select id, username, password, real_name, birthday, modify_time, creation_time
-        from demo_user
+        select id, username, password, real_name, birthday, modify_time, creation_time from demo_user
         <include refid="findUsersCondition"/>
     </select>
 

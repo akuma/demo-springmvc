@@ -15,11 +15,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.guomi.meazza.dao.DataExistsException;
+import com.guomi.meazza.util.Pagination;
+
 import demo.spring.mvc.dao.UserDao;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
-import nova.dao.DataExistsException;
-import nova.util.Pagination;
 
 /**
  * UserServiceImpl 实现类。

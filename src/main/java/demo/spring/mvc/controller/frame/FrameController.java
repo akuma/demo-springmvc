@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.guomi.meazza.spring.mvc.ResponseMessage;
+
 import demo.spring.mvc.controller.BasicController;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
-import nova.spring.mvc.ResponseMessage;
 
 /**
  * 登录系统后的框架页面相关的 Action 类。

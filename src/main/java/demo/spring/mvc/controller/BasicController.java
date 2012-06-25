@@ -8,8 +8,9 @@ package demo.spring.mvc.controller;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.guomi.meazza.spring.mvc.AbstractController;
+
 import demo.spring.mvc.dto.MemoryUser;
-import nova.spring.mvc.AbstractController;
 
 /**
  * 系统中所有 Controller 类的基类。

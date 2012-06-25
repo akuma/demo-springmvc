@@ -15,10 +15,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.guomi.meazza.test.BasicTestCase;
+import com.guomi.meazza.util.Pagination;
+
 import demo.spring.mvc.dao.UserDao;
 import demo.spring.mvc.entity.User;
-import nova.test.BasicTestCase;
-import nova.util.Pagination;
 
 /**
  * @author huangwj

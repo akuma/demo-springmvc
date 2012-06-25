@@ -15,7 +15,7 @@
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <list>
-                <bean class="nova.spring.convert.StringToDateConverter" />
+                <bean class="com.guomi.meazza.spring.convert.StringToDateConverter" />
             </list>
         </property>
     </bean>
@@ -33,7 +33,7 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <bean id="commonModelAttributeInterceptor" class="nova.spring.interceptor.CommonModelAttributeInterceptor">
+    <bean id="commonModelAttributeInterceptor" class="com.guomi.meazza.spring.interceptor.CommonModelAttributeInterceptor">
         <property name="commonAttributes">
             <map>
                 <entry key="systemInfo" value-ref="systemInfo" />
