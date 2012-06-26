@@ -1,7 +1,6 @@
 /* 
  * @(#)UserValidator.java    Created on 2012-6-5
- * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id$
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.controller.user;
 
@@ -15,8 +14,7 @@ import demo.spring.mvc.entity.User;
 /**
  * 用户信息验证类。
  * 
- * @author wj.huang
- * @version $Revision: 1.0 $, $Date: 2012-6-5 下午7:34:47 $
+ * @author akuma
  */
 @Component
 public class UserValidator implements Validator {

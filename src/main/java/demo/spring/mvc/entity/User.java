@@ -1,7 +1,6 @@
 /*
  * @(#)User.java    Created on 2012-3-13
- * Copyright (c) 2005-2012 shunwang. All rights reserved.
- * $Id: User.java 2 2012-04-05 08:03:20Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.entity;
 
@@ -12,8 +11,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * @author wj.huang
- * @version $Revision: 2 $, $Date: 2012-04-05 16:03:20 +0800 (Thu, 05 Apr 2012) $
+ * 用户信息实体类。
+ * 
+ * @author akuma
  */
 public class User implements Serializable {
 

@@ -1,7 +1,6 @@
 /* 
  * @(#)UserDaoImplTest.java    Created on 2010-12-7
- * Copyright (c) 2010 ZDSoft Networks, Inc. All rights reserved.
- * $Id: UserDaoImplTest.java 93 2012-05-16 01:24:15Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.dao.impl;
 
@@ -22,8 +21,7 @@ import demo.spring.mvc.dao.UserDao;
 import demo.spring.mvc.entity.User;
 
 /**
- * @author huangwj
- * @version $Revision: 93 $, $Date: 2012-05-16 09:24:15 +0800 (Wed, 16 May 2012) $
+ * @author akuma
  */
 public class UserDaoImplTest extends BasicTestCase {
 

@@ -1,7 +1,6 @@
 /*
  * @(#)BasicController.java    Created on 2012-05-31
- * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id: BasicController.java 5 2012-04-06 05:24:48Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.controller;
 
@@ -15,8 +14,7 @@ import demo.spring.mvc.dto.MemoryUser;
 /**
  * 系统中所有 Controller 类的基类。
  * 
- * @author wj.huang
- * @version $Revision: 5 $, $Date: 2012-04-06 13:24:48 +0800 (Fri, 06 Apr 2012) $
+ * @author akuma
  */
 public abstract class BasicController extends AbstractController {
 

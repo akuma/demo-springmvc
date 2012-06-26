@@ -1,7 +1,6 @@
 /*
  * @(#)MemoryUser.java    Created on 2010-7-14
- * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id: MemoryUser.java 92 2012-05-15 09:42:43Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.dto;
 
@@ -10,8 +9,7 @@ import java.io.Serializable;
 /**
  * 用于保存在 Session 中的用户信息类。
  * 
- * @author wj.huang
- * @version $Revision: 92 $, $Date: 2012-05-15 17:42:43 +0800 (Tue, 15 May 2012) $
+ * @author akuma
  */
 public class MemoryUser implements Serializable {
 

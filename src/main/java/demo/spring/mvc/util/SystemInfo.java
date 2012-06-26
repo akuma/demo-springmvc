@@ -1,7 +1,6 @@
 /*
  * @(#)SystemInfo.java    Created on 2010-7-15
- * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id: SystemInfo.java 93 2012-05-16 01:24:15Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.util;
 
@@ -21,8 +20,7 @@ import org.springframework.stereotype.Component;
 /**
  * 系统信息类。
  * 
- * @author wj.huang
- * @version $Revision: 93 $, $Date: 2012-05-16 09:24:15 +0800 (Wed, 16 May 2012) $
+ * @author akuma
  */
 @Component
 public class SystemInfo implements Serializable {

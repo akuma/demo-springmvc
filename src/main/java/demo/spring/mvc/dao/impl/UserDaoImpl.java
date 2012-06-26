@@ -1,7 +1,6 @@
 /* 
  * @(#)UserDaoImpl.java    Created on 2010-7-14
- * Copyright (c) 2010 ZDSoft Networks, Inc. All rights reserved.
- * $Id: UserDaoImpl.java 2 2012-04-05 08:03:20Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.dao.impl;
 
@@ -22,8 +21,7 @@ import demo.spring.mvc.entity.User;
 /**
  * UserDaoImpl 实现类。
  * 
- * @author huangwj
- * @version $Revision: 2 $, $Date: 2012-04-05 16:03:20 +0800 (Thu, 05 Apr 2012) $
+ * @author akuma
  */
 @Repository
 public class UserDaoImpl extends IBatisBasicDao implements UserDao {

@@ -1,7 +1,6 @@
 /* 
  * @(#)UserController.java    Created on 2010-7-14
- * Copyright (c) 2,010 ZDSoft Networks, Inc. All rights reserved.
- * $Id: UserController.java 95 2012-05-17 01:29:17Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.controller.user;
 
@@ -30,8 +29,7 @@ import demo.spring.mvc.service.UserService;
 /**
  * 负责用户信息管理的 Action 类。
  * 
- * @author huangwj
- * @version $Revision: 95 $, $Date: 2012-05-17 09:29:17 +0800 (Thu, 17 May 2012) $
+ * @author akuma
  */
 @Controller
 @RequestMapping("/user")

@@ -1,7 +1,6 @@
 /* 
  * @(#)AuthInterceptor.java    Created on 2012-6-7
- * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id$
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.interceptor;
 
@@ -20,8 +19,7 @@ import demo.spring.mvc.dto.MemoryUser;
 /**
  * 权限验证拦截器。
  * 
- * @author wj.huang
- * @version $Revision: 1.0 $, $Date: 2012-6-7 下午2:44:26 $
+ * @author akuma
  */
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 

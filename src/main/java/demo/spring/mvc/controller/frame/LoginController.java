@@ -1,7 +1,6 @@
 /*
  * @(#)LoginController.java    Created on 2010-7-14
- * Copyright (c) 2005-2012 Shunwang. All rights reserved.
- * $Id: LoginController.java 95 2012-05-17 01:29:17Z wj.huang $
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.controller.frame;
 
@@ -26,8 +25,7 @@ import demo.spring.mvc.service.UserService;
 /**
  * 处理用户登入、登出系统的 Action。
  * 
- * @author wj.huang
- * @version $Revision: 95 $, $Date: 2012-05-17 09:29:17 +0800 (Thu, 17 May 2012) $
+ * @author akuma
  */
 @Controller
 @RequestMapping("/")
