@@ -19,8 +19,8 @@ local.properties
 .springBeans
 
 # Maven target dir and log dir
-target
-logs
+target/
+logs/
 
 # External tool builders
 .externalToolBuilders/
