@@ -25,8 +25,9 @@ public class AntPathMatcherTest {
         assertFalse(apm.match("/user/*User", "/user/listUser.htm"));
         assertFalse(apm.match("/user/*Foo", "/user/listUser.htm"));
         assertFalse(apm.match("/foo/*User*", "/user/listUser.htm"));
+        assertFalse(apm.match("/foo/*User*|/student/*Student*", "/student/listStudent.htm"));
 
-        int n = 10000;
+        int n = 100000;
         long time = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
             apm.match("/user/*User.htm", "/user/listUser.htm");
