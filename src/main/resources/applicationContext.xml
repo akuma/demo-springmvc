@@ -16,11 +16,15 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <description>Spring 公共配置</description>
+
     <context:annotation-config />
     <context:property-placeholder location="classpath:jdbc.properties" />
-    <context:component-scan base-package="demo.spring.mvc.service" />
-    <context:component-scan base-package="demo.spring.mvc.dao" />
-    <context:component-scan base-package="demo.spring.mvc.util" />
+
+    <!-- 配置自动扫描且不扫描 @Controller -->
+    <context:component-scan base-package="demo.spring.mvc">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
 
     <util:properties id="serverProperties" location="classpath:messageResources.properties" />
 
