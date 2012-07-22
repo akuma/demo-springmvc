@@ -78,7 +78,7 @@
     </update>
 
     <update id="updateUserNotNull">
-        update demo_user set modify_time = getdate()
+        update demo_user set id = #id#
         <isNotNull prepend=", " property="username">
             username = #username#
         </isNotNull>
