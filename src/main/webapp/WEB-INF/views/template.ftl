@@ -7,12 +7,12 @@
 
 <#macro head title="${(systemInfo.name)!}" style="main.css">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <title>${title!}</title>
-<link type="text/css" href="${request.contextPath}/css/${style}" rel="stylesheet" />
-<link type="text/css" href="${request.contextPath}/css/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
-<link type="text/css" href="${request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
-<link type="text/css" href="${request.contextPath}/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="${request.contextPath}/css/${style}">
+<link rel="stylesheet" href="${request.contextPath}/css/jquery-ui-1.8.18.custom.css">
+<link rel="stylesheet" href="${request.contextPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${request.contextPath}/css/bootstrap-responsive.min.css">
 <@jqueryScript />
 <script src="${request.contextPath}/script/bootstrap.min.js"></script>
 <#nested>
@@ -67,13 +67,13 @@
 
 <#macro simpleHead title="${(systemInfo.name)!}">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
 <title>${title!}</title>
 <#nested>
 </head>
 </#macro>
 
-<#macro pagination url=request.requestURL needJump=true>
+<#macro pagination url=request.requestUri needJump=true>
 <#if request.queryString??>
   <#local pageUrl = url + "?" + request.queryString?replace("&?pageNum(=[^&]*&?$)?", "", "rs")>
 <#else>
@@ -97,7 +97,7 @@
 </#if>
 <#if needJump == true>
 第 <input id="_targetPageNum_" type="text" class="span1" size="3" maxlength="6" value="${page.pageNum}" onfocus="this.value=''" onblur="if(this.value=='')this.value='${page.pageNum}'" onkeyup="if(event.keyCode==13){jumpPage()}"> 页 <a href="javascript:jumpPage()">跳转</a>
-<script type="text/javascript" language="javascript">
+<script>
 function jumpPage() {
   var jumpPageNum = document.getElementById("_targetPageNum_").value;
   if (isNaN(parseInt(jumpPageNum))) {
@@ -111,7 +111,7 @@ function jumpPage() {
 </div>
 </#macro>
 
-<#macro swPage url=request.requestURL needJump=true>
+<#macro swPage url=request.requestUri needJump=true>
 <#if request.queryString??>
   <#local pageUrl = url + "?" + request.queryString?replace("&?page(=[^&]*&?$)?", "", "rs")>
 <#else>
@@ -135,7 +135,7 @@ function jumpPage() {
 </#if>
 <#if needJump == true>
 第 <input id="_targetPageNum_" type="text" size="3" maxlength="6" value="${pager.pageth}" onfocus="this.value=''" onblur="if(this.value=='')this.value='${pager.pageth}'" onkeyup="if(event.keyCode==13){jumpPage()}"> 页 <a href="javascript:jumpPage()">跳转</a>
-<script type="text/javascript" language="javascript">
+<script>
 function jumpPage() {
   var jumpPageNum = document.getElementById("_targetPageNum_").value;
   if (isNaN(parseInt(jumpPageNum))) {
