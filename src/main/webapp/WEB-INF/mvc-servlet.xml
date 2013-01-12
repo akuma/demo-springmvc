@@ -19,7 +19,7 @@
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <list>
-                <bean class="com.guomi.meazza.spring.convert.StringToDateConverter" />
+                <bean class="com.guomi.meazza.spring.convert.CustomStringToDateConverter" />
             </list>
         </property>
     </bean>
