@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="demo.spring.mvc.mapper.UserMapper">
+
+    <sql id="userColumns">
+        id, username, password, real_name as realName, birthday, modify_time as modifyTime, creation_time as creationTime
+    </sql>
+
+    <sql id="userCondition">
+        <where>
+            <if test="id != null">
+                id = #{}
+            </if>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="username != null">
+                and password = #{password}
+            </if>
+            <if test="password != null">
+                and real_name = #{realName}
+            </if>
+            <if test="username != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="modify_time != null">
+                and modify_time = #{modifyTime}
+            </if>
+            <if test="creation_time != null">
+                and creation_time = #{creationTime}
+            </if>
+        </where>
+    </sql>
+
+    <select id="find">
+        select <include refid="userColumns" />
+        from demo_user where id = #{value}
+    </select>
+
+    <select id="findList">
+        select <include refid="userColumns" />
+        from demo_user
+        <include refid="userCondition"/>
+    </select>
+
+    <select id="countList">
+        select count(1) from demo_user
+        <include refid="userCondition"/>
+    </select>
+
+    <select id="findMap">
+        select <include refid="userColumns" />
+        from demo_user
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into demo_user(username, password, real_name, birthday, creation_time)
+        values(#{username}, #{password}, #{realName}, #{birthday}, #{creationTime})
+    </insert>
+
+    <update id="update">
+        update demo_user
+        set username = #{username}, password = #{password}, real_name = #{realName}, birthday = #{birthday}
+        where id = #{id}
+    </update>
+
+    <update id="updateIfNecessary">
+        update demo_user
+        <set>
+            id = #{id}
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="birthday != null">birthday = #{birthday}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from demo_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
