@@ -23,7 +23,8 @@
 
     <!-- 配置自动扫描且不扫描 @Controller -->
     <context:component-scan base-package="demo.spring.mvc">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:exclude-filter type="annotation"
+            expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
     <util:properties id="serverProperties" location="classpath:messageResources.properties" />
@@ -51,21 +52,6 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="sqlMapClient" />
-    </bean>
-
-    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocation" value="classpath:ibatis.xml" />
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="sqlExecutor" class="com.guomi.meazza.orm.ibatis.LimitSqlExecutor">
-        <property name="dialect">
-            <bean class="com.guomi.meazza.dao.MySqlDialect" />
-        </property>
-    </bean>
-
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}" />
         <property name="url" value="${jdbc.url}" />
@@ -88,15 +74,52 @@
         <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
     </bean>
 
-    <!-- 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!-- iBATIS config start -->
+    <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+        <property name="sqlMapClient" ref="sqlMapClient" />
+    </bean>
+
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:ibatis.xml" />
         <property name="dataSource" ref="dataSource" />
-        <property name="typeAliasesPackage" value="demo.spring.mvc.entity" />
+    </bean>
+
+    <bean id="sqlExecutor" class="com.guomi.meazza.orm.ibatis.LimitSqlExecutor">
+        <property name="dialect">
+            <bean class="com.guomi.meazza.dao.MySqlDialect" />
+        </property>
+    </bean>
+    <!-- iBATIS config end -->
+
+    <!-- MyBatis config start -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="demo.spring.mvc.repository" />
+        <property name="annotationClass" value="com.guomi.meazza.orm.mybatis.MyBatisRepository" />
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="demo.spring.mvc.mapper" />
+        <property name="basePackage" value="demo.spring.mvc.repository2" />
+        <property name="annotationClass" value="com.guomi.meazza.orm.mybatis.MyBatisRepository" />
+        <property name="sqlSessionTemplateBeanName" value="sqlSessionTemplateForBatch" />
     </bean>
-    -->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="demo.spring.mvc.entity" />
+        <property name="configLocation" value="classpath:mybatis.xml" />
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+        <constructor-arg index="1" value="SIMPLE" />
+    </bean>
+
+    <!-- For batch sql -->
+    <bean id="sqlSessionFactoryForBatch" parent="sqlSessionFactory" />
+
+    <bean id="sqlSessionTemplateForBatch" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactoryForBatch" />
+        <constructor-arg index="1" value="BATCH" />
+    </bean>
 
 </beans>

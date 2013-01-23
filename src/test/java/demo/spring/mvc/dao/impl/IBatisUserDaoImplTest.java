@@ -1,13 +1,15 @@
 /* 
- * @(#)UserMapperTest.java    Created on 2012-8-1
- * Copyright (c) 2012 Guomi. All rights reserved.
+ * @(#)IBatisUserDaoImplTest.java    Created on 2010-12-7
+ * Copyright (c) 2012 Akuma. All rights reserved.
  */
-package demo.spring.mvc.mapper;
+package demo.spring.mvc.dao.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,16 +19,16 @@ import org.junit.Test;
 
 import com.guomi.meazza.test.BasicTestCase;
 
+import demo.spring.mvc.dao.IBatisUserDao;
 import demo.spring.mvc.entity.User;
-import demo.spring.mvc.repository.UserMapper;
 
 /**
  * @author akuma
  */
-public class UserMapperTest extends BasicTestCase {
+public class IBatisUserDaoImplTest extends BasicTestCase {
 
     @Resource
-    private UserMapper userMapper;
+    private IBatisUserDao iBatisUserDao;
 
     @Test
     public void testCrudOps() {
@@ -35,39 +37,39 @@ public class UserMapperTest extends BasicTestCase {
         user.setPassword("123456");
         user.setRealName("测试用户");
 
-        userMapper.insert(user);
+        iBatisUserDao.insert(user);
 
-        User dbUser = userMapper.find(user.getId());
+        User dbUser = iBatisUserDao.find(user.getId());
         assertNotNull(dbUser);
         assertEquals(dbUser.getId(), user.getId());
 
         user.setUsername(RandomStringUtils.randomAlphabetic(12));
         user.setPassword("123abc");
         user.setRealName("测试用户2");
-        userMapper.update(user);
+        iBatisUserDao.update(user);
 
-        dbUser = userMapper.find(user.getId());
+        dbUser = iBatisUserDao.find(user.getId());
         assertNotNull(dbUser);
         assertEquals(dbUser.getId(), user.getId());
         assertEquals(dbUser.getUsername(), user.getUsername());
         assertEquals(dbUser.getPassword(), user.getPassword());
         assertEquals(dbUser.getRealName(), user.getRealName());
 
-        // // Update if necessary
-        // user.setUsername(null);
-        // user.setPassword(null);
-        // user.setRealName(null);
-        // userMapper.update(user);
-        //
-        // dbUser = userMapper.find(user.getId());
-        // assertNotNull(dbUser);
-        // assertEquals(dbUser.getId(), user.getId());
-        // assertFalse(dbUser.getUsername().equals(user.getUsername()));
-        // assertFalse(dbUser.getPassword().equals(user.getPassword()));
-        // assertFalse(dbUser.getRealName().equals(user.getRealName()));
+        // Update if necessary
+        user.setUsername(null);
+        user.setPassword(null);
+        user.setRealName(null);
+        iBatisUserDao.updateNotNull(user);
 
-        userMapper.delete(user.getId());
-        dbUser = userMapper.find(user.getId());
+        dbUser = iBatisUserDao.find(user.getId());
+        assertNotNull(dbUser);
+        assertEquals(dbUser.getId(), user.getId());
+        assertFalse(dbUser.getUsername().equals(user.getUsername()));
+        assertFalse(dbUser.getPassword().equals(user.getPassword()));
+        assertFalse(dbUser.getRealName().equals(user.getRealName()));
+
+        iBatisUserDao.delete(user.getId());
+        dbUser = iBatisUserDao.find(user.getId());
         assertNull(dbUser);
     }
 
@@ -84,11 +86,11 @@ public class UserMapperTest extends BasicTestCase {
         user2.setPassword("123456");
         user2.setRealName("测试用户");
 
-        // userMapper.inserts(user1, user2);
-        userMapper.insert(user1);
-        userMapper.insert(user2);
+        // userDao.inserts(user1, user2);
+        iBatisUserDao.insert(user1);
+        iBatisUserDao.insert(user2);
 
-        Map<Object, User> users = userMapper.findMap(user1.getId(), user2.getId());
+        Map<Serializable, User> users = iBatisUserDao.find(user1.getId(), user2.getId());
         System.out.println(users);
     }
 

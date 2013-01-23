@@ -1,5 +1,5 @@
 /* 
- * @(#)UserDaoImpl.java    Created on 2010-7-14
+ * @(#)IBatisUserDaoImpl.java    Created on 2010-7-14
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.dao.impl;
@@ -15,16 +15,16 @@ import org.springframework.stereotype.Repository;
 import com.guomi.meazza.orm.ibatis.IBatisBasicDao;
 import com.guomi.meazza.util.Pagination;
 
-import demo.spring.mvc.dao.UserDao;
+import demo.spring.mvc.dao.IBatisUserDao;
 import demo.spring.mvc.entity.User;
 
 /**
- * UserDaoImpl 实现类。
+ * IBatisUserDaoImpl 实现类。
  * 
  * @author akuma
  */
 @Repository
-public class UserDaoImpl extends IBatisBasicDao implements UserDao {
+public class IBatisUserDaoImpl extends IBatisBasicDao implements IBatisUserDao {
 
     @Override
     public User find(Serializable id) {

@@ -15,10 +15,10 @@ alter database character set "utf8";
 drop table if exists demo_user;
 create table demo_user (
     id int auto_increment not null,
-    username varchar(16) not null,
-    password varchar(20) not null,
+    username varchar(20) not null,
+    password varchar(64) not null,
     real_name varchar(64) not null,
-    birthday datetime null,
+    birthday date null,
     creation_time timestamp not null default 0,
     modify_time timestamp not null on update current_timestamp default current_timestamp,
     constraint pk_user primary key (id)

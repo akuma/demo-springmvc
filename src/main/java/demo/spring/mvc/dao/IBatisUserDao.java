@@ -1,5 +1,5 @@
 /* 
- * @(#)UserDao.java    Created on 2010-7-14
+ * @(#)IBatisUserDao.java    Created on 2010-7-14
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.dao;
@@ -17,7 +17,7 @@ import demo.spring.mvc.entity.User;
  * 
  * @author akuma
  */
-public interface UserDao {
+public interface IBatisUserDao {
 
     /**
      * 获取User实体。

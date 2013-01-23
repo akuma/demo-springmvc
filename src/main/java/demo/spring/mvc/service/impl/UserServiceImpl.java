@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.guomi.meazza.dao.DataExistsException;
 import com.guomi.meazza.util.Pagination;
 
-import demo.spring.mvc.dao.UserDao;
+import demo.spring.mvc.dao.IBatisUserDao;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
 
@@ -30,7 +30,7 @@ import demo.spring.mvc.service.UserService;
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserDao userDao;
+    private IBatisUserDao iBatisUserDao;
 
     @Override
     public User getUser(Serializable id) {
@@ -38,14 +38,14 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        return userDao.find(id);
+        return iBatisUserDao.find(id);
     }
 
     @Override
     public User getUserByUsername(String username) {
         User user = new User();
         user.setUsername(username);
-        List<User> users = userDao.find(user);
+        List<User> users = iBatisUserDao.find(user);
         return users.isEmpty() ? null : users.get(0);
     }
 
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
             return Collections.emptyList();
         }
 
-        return userDao.find(user);
+        return iBatisUserDao.find(user);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
             return Collections.emptyList();
         }
 
-        return userDao.find(user, page);
+        return iBatisUserDao.find(user, page);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
             throw new DataExistsException("用户名[" + user.getUsername() + "]已经存在");
         }
 
-        userDao.insert(user);
+        iBatisUserDao.insert(user);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
             throw new DataExistsException("用户名[" + user.getUsername() + "]已经存在");
         }
 
-        userDao.update(user);
+        iBatisUserDao.update(user);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        userDao.updateNotNull(user);
+        iBatisUserDao.updateNotNull(user);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
             return;
         }
 
-        userDao.delete(ids);
+        iBatisUserDao.delete(ids);
     }
 
 }

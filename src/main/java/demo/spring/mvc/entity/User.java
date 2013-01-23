@@ -27,24 +27,9 @@ public class User implements Serializable {
     private Date modifyTime; // 字段 modify_time
     private Date creationTime; // 字段 creation_time
 
-    /**
-     * 默认的用户对象构造方法。
-     */
     public User() {
     }
 
-    /**
-     * 用户对象构造方法。
-     * 
-     * @param id
-     *            UUID
-     * @param username
-     *            用户名
-     * @param password
-     *            密码
-     * @param realName
-     *            真实姓名
-     */
     public User(Integer id, String username, String password, String realName) {
         this.id = id;
         this.username = username;
@@ -85,27 +70,27 @@ public class User implements Serializable {
     }
 
     public Date getBirthday() {
-        return (birthday == null ? null : new Date(birthday.getTime()));
+        return birthday;
     }
 
     public void setBirthday(Date birthday) {
-        this.birthday = (birthday == null ? null : new Date(birthday.getTime()));
+        this.birthday = birthday;
     }
 
     public Date getModifyTime() {
-        return (modifyTime == null ? null : new Date(modifyTime.getTime()));
+        return modifyTime;
     }
 
     public void setModifyTime(Date modifyTime) {
-        this.modifyTime = (modifyTime == null ? null : new Date(modifyTime.getTime()));
+        this.modifyTime = modifyTime;
     }
 
     public Date getCreationTime() {
-        return (creationTime == null ? null : new Date(creationTime.getTime()));
+        return creationTime;
     }
 
     public void setCreationTime(Date creationTime) {
-        this.creationTime = (creationTime == null ? null : new Date(creationTime.getTime()));
+        this.creationTime = creationTime;
     }
 
     @Override
