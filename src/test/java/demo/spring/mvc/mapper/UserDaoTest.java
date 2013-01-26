@@ -94,8 +94,8 @@ public class UserDaoTest extends BasicTestCase {
     @Test
     public void testFindWithPage() {
         User user = new User();
-        user.setRealName("a");
-        user.setPassword("a");
+        user.setRealName("%a%");
+        user.setPassword("%a%");
 
         Pagination page = new Pagination();
         page.setPageSize(2);

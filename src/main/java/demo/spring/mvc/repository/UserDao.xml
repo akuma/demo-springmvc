@@ -40,10 +40,10 @@
         from demo_user
         <where>
             <if test="param1.password != null">
-                password like '%${param1.password}%'
+                password like #{param1.password}
             </if>
             <if test="param1.realName != null">
-                and real_name like '%${param1.realName}%'
+                and real_name like #{param1.realName}
             </if>
         </where>
     </select>

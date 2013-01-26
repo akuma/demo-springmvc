@@ -21,7 +21,7 @@
         <spring.version>3.1.1.RELEASE</spring.version>
         <ibatis.version>2.3.4.726</ibatis.version>
         <freemarker.version>2.3.19</freemarker.version>
-        <meazza.version>0.0.31</meazza.version>
+        <meazza.version>0.0.34</meazza.version>
 
         <webapp.contextPath>/springmvc</webapp.contextPath>
         <webapp.port>8080</webapp.port>

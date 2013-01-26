@@ -61,6 +61,7 @@
     </logger>
 
     <logger name="org.springframework" level="INFO" />
+    <logger name="com.guomi.meazza" level="DEBUG" />
     <logger name="demo.spring.mvc" level="DEBUG" />
 
     <root level="ERROR">
