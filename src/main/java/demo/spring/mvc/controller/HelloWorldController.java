@@ -5,17 +5,23 @@
 package demo.spring.mvc.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.guomi.meazza.spring.mvc.JsonViewHelper;
+
+import demo.spring.mvc.entity.User;
 
 /**
  * Hello World 控制器。
@@ -27,8 +33,6 @@ public class HelloWorldController {
 
     /**
      * Say hello world.
-     * 
-     * @return success
      */
     @RequestMapping(value = "/hello.htm", method = RequestMethod.GET)
     @ResponseBody
@@ -47,6 +51,26 @@ public class HelloWorldController {
         Map<String, String> model = new HashMap<>();
         model.put("test", json);
         JsonViewHelper.render(model, response);
+    }
+
+    @RequestMapping("/users")
+    @ResponseBody
+    public Object getUser() {
+        Map<String, Object> results = new HashMap<>();
+        List<User> users = new ArrayList<>();
+        for (long i = 0; i < 10; i++) {
+            User user = new User();
+            user.setId(i);
+            user.setUsername(RandomStringUtils.randomAlphabetic(10));
+            user.setPassword("123456");
+            user.setRealName(RandomStringUtils.randomAlphabetic(10));
+            user.setBirthday(new Date());
+            user.setModifyTime(new Date());
+            user.setCreationTime(new Date());
+            users.add(user);
+        }
+        results.put("users", users);
+        return results;
     }
 
 }

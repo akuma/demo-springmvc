@@ -1,78 +1,74 @@
-<@fm.html>
-<@fm.head title="用户信息列表">
+<#macro scriptMacro>
 <script>
-function removeUser(userId) {
-  if (!confirm("您确定要删除此用户吗？")) {
-    return;
+var removeCallback = function(result) {
+  if (!$.gmc.hasErrors(result)) {
+    location.reload();
   }
-
-  ajaxPost("removeUser.htm", "userId=" + userId, function(result) {
-    drawMessages(result);
-    if (!hasActionErrors(result)) {
-      location.reload();
-    }
-  });
 }
 
 $(document).ready(function() {
   $("#checkAll").click(function() {
     var status = this.checked;
-    $(":checkbox[@name=user.id]").each(function() {
-      $(this).attr("checked", status);
-    });
+    $("input[type=checkbox]").prop("checked", status);
   });
 });
 </script>
-</@fm.head>
-<@fm.body currentModule="用户信息管理 &gt;&gt; 用户信息列表">
-<div id="titleMain">
-  <div class="modules">
-    <div id="current"><a href="listUser.htm" class="current">用户信息列表</a></div>
-    <div class="other"><a href="newUser.htm" class="other">新增用户信息</a></div>
-    <div class="unusable">修改用户信息</div>
+</#macro>
+
+<@fm.framePage title="用户信息列表" scriptMacro=scriptMacro>
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="userList">用户信息列表</a></li>
+      <li><a href="addUser">新增用户信息</a></li>
+      <li class="disabled"><a>修改用户信息</a></li>
+    </ul>
   </div>
-</div>
-<div id="tableMain">
-  <@fm.message />
-  <div class="description">
-  <form name="searchForm" action="listUser.htm" method="get" class="form-search">
-    <label for="username">用户名：</label><input type="input" class="span2" id="username" name="username" value="${user.username!?html}" />
-    <label for="realName">真实姓名：</label><input type="input" class="span2" id="realName" name="realName" value="${user.realName!?html}" />
-    <input id="searchBtn" type="submit" class="colorButton" value="  查 询  " />
+
+  <div class="row-fluid">
+    <@fm.messages />
+  </div>
+
+  <form class="well form-search" name="searchForm" action="userList" method="get">
+    <label class="control-label" for="username">用户名</label>
+    <input type="text" class="input-small" id="username" name="username" value="${(user.username?html)!}">
+    <label class="control-label" for="realName">真实姓名</label>
+    <input type="text" class="input-small" id="realName" name="realName" value="${(user.realName?html)!}">
+    <button type="submit" class="btn">查询</button>
   </form>
-  </div>
-  <@fm.pagination "listUser.htm" />
-  <table id="dataTable" class="table table-striped table-bordered table-condensed">
+
+  <@fm.pager "userList" />
+
+  <table class="table table-striped table-hover">
     <thead>
-      <tr class="titleTr">
+      <tr>
         <!--<th align="center" width="5%">No.</td>-->
-        <th class="span1"><input type="checkbox" id="checkAll" /></th>
-        <th class="span2">用户ID</th>
-        <th class="span3">用户名</th>
-        <th class="span3">真实姓名</th>
-        <th class="span2">修改时间</th>
-        <th class="span2">创建时间</th>
-        <th class="span2">操作</th>
+        <th><input type="checkbox" id="checkAll"></th>
+        <th>用户ID</th>
+        <th>用户名</th>
+        <th>真实姓名</th>
+        <th>修改时间</th>
+        <th>创建时间</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
     <#list users as user>
-      <tr id="record_${user.username}">
+      <tr id="record_${user.id}">
         <!--<td>${user_index + 1}</td>-->
-        <td><input type="checkbox" id="check${user.id}" name="userIds" value="${user.id}" /></td>
+        <td><input type="checkbox" id="check${user.id}" name="userIds" value="${user.id}"></td>
         <td>${user.id}</td>
         <td>${user.username?html}</td>
         <td>${user.realName?html}</td>
         <td>${user.modifyTime?datetime}</td>
         <td>${user.creationTime?datetime}</td>
         <td>
-          <a class="btn btn-mini btn-primary span1" href="loadUser.htm?userId=${user.id}">修改</a>
-          <a class="btn btn-mini btn-danger span1" href="javascript:removeUser('${user.id}');">删除</a>
+          <a class="btn btn-mini" href="modifyUser?userId=${user.id}">修改</a>
+          <a class="btn btn-mini btn-danger" href="removeUser?userId=${user.id}"
+             data-remote="true" data-method="post" data-type="json" data-success="removeCallback"
+             data-confirm="您确定要删除吗">删除</a>
         </td>
       </tr>
     </#list>
     </tbody>
   </table>
-</div>
-</@fm.body>
-</@fm.html>
+</@fm.framePage>

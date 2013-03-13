@@ -5,10 +5,9 @@
     <plugins>
 
         <plugin interceptor="com.guomi.meazza.orm.mybatis.MyBatisPagePlugin">
-            <property name="sqlPattern" value=".*Page" />
+            <property name="sqlPattern" value=".*WithPage" />
         </plugin>
 
     </plugins>
 
 </configuration>
-

@@ -1,49 +1,28 @@
-/*
- * @(#)User.java    Created on 2012-3-13
- * Copyright (c) 2012 Akuma. All rights reserved.
+/* 
+ * @(#)User.java    Created on 2013-03-13
+ * Copyright (c) 2013 Guomi. All rights reserved.
  */
 package demo.spring.mvc.entity;
 
-import java.io.Serializable;
 import java.util.Date;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.guomi.meazza.support.LongIdEntity;
+
 /**
- * 用户信息实体类。
+ * 表 demo_user 对应的实体类。
  * 
- * @author akuma
+ * @author gmcg (Guomi Code Generator)
  */
-public class User implements Serializable {
+public class User extends LongIdEntity {
 
-    private static final long serialVersionUID = 9160198451255754582L;
+    private static final long serialVersionUID = 1L;
 
-    private Integer id; // 字段 id 主键
-    private String username; // 字段 username
-    private String password; // 字段 password
-    private String realName; // 字段 real_name
-    private Date birthday; // 字段 birthday
-    private Date modifyTime; // 字段 modify_time
-    private Date creationTime; // 字段 creation_time
-
-    public User() {
-    }
-
-    public User(Integer id, String username, String password, String realName) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.realName = realName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String username;
+    private String password;
+    private String realName;
+    private Date birthday;
 
     public String getUsername() {
         return username;
@@ -75,22 +54,6 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
-    public Date getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
     }
 
     @Override

@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
+
+import com.guomi.meazza.util.StringUtils;
 
 import demo.spring.mvc.controller.BasicController;
 import demo.spring.mvc.dto.MemoryUser;
@@ -38,14 +39,8 @@ public class LoginController extends BasicController {
 
     /**
      * 显示登录页面。
-     * 
-     * @param request
-     *            Spring WebRequest Object
-     * @param model
-     *            Spring Model Object
-     * @return view name
      */
-    @RequestMapping({ "/", "index.htm" })
+    @RequestMapping({ "/", "/index" })
     public String index(WebRequest request, Model model) {
         // 获取用户尚未登录的标记，如果存在，则给出提示信息并清除该标记
         Boolean loginState = (Boolean) request.getAttribute(SESSION_KEY_NOT_LOGIN, RequestAttributes.SCOPE_SESSION);
@@ -59,36 +54,31 @@ public class LoginController extends BasicController {
 
     /**
      * 处理登录系统操作。
-     * 
-     * @param user
-     *            用户登录认证信息
-     * @param request
-     *            Spring WebRequest Object
-     * @param model
-     *            Spring Model Object
-     * @return view name
      */
-    @RequestMapping(value = "login.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(User user, WebRequest request, Model model) {
-        if (StringUtils.isEmpty(user.getUsername())) {
+        if (StringUtils.isBlank(user.getUsername())) {
             addActionError("请输入用户名", model);
             return "index";
         }
 
         if (StringUtils.isEmpty(user.getPassword())) {
+            model.addAttribute("username", user.getUsername());
             addActionError("请输入密码", model);
             return "index";
         }
 
         User dbUser = userService.getUserByUsername(user.getUsername());
         if (dbUser == null) {
+            model.addAttribute("username", user.getUsername());
             addActionError("用户名不存在或密码错误", model);
             return "index";
         }
 
         String passwordEncoded = user.getPassword();
-        String userPasswordEncoded = DigestUtils.shaHex(dbUser.getPassword());
+        String userPasswordEncoded = DigestUtils.sha1Hex(dbUser.getPassword());
         if (!passwordEncoded.equals(userPasswordEncoded)) {
+            model.addAttribute("username", user.getUsername());
             addActionError("用户名不存在或密码错误", model);
             return "index";
         }
@@ -99,18 +89,14 @@ public class LoginController extends BasicController {
         memoryUser.setRealName(dbUser.getRealName());
         request.setAttribute(MemoryUser.KEY, memoryUser, RequestAttributes.SCOPE_SESSION);
 
-        return "redirect:/frame/";
+        return "redirect:welcome";
     }
 
     /**
      * 处理退出系统操作并重定向到登录页面。
-     * 
-     * @param request
-     *            Spring NativeWebRequest Object
-     * @return view name
      */
-    @RequestMapping("logout.htm")
-    public String logout(NativeWebRequest request, Model model) {
+    @RequestMapping("/logout")
+    public String logout(NativeWebRequest request) {
         request.removeAttribute(MemoryUser.KEY, RequestAttributes.SCOPE_SESSION);
         request.getNativeRequest(HttpServletRequest.class).getSession().invalidate();
         return "redirect:/";

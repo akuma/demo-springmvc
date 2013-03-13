@@ -29,11 +29,11 @@ public class SystemInfo implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemInfo.class);
 
-    @Value("#{serverProperties['system.id']}")
+    @Value("#{appProperties['system.id']}")
     private String id;
-    @Value("#{serverProperties['system.name']}")
+    @Value("#{appProperties['system.name']}")
     private String name;
-    @Value("#{serverProperties['system.copyright']}")
+    @Value("#{appProperties['system.copyright']}")
     private String copyright;
 
     private String version;
