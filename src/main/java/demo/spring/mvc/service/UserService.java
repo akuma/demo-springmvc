@@ -50,7 +50,7 @@ public interface UserService {
     /**
      * 修改 User 信息。
      */
-    void modifyUserNotNull(User user);
+    void modifyUserIfPossible(User user);
 
     /**
      * 删除 User 信息。

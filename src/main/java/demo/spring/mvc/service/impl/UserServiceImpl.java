@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modifyUserNotNull(User user) {
+    public void modifyUserIfPossible(User user) {
         if (user == null) {
             return;
         }

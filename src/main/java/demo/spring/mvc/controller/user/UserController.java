@@ -98,7 +98,7 @@ public class UserController extends BasicController {
      * 显示修改用户页面。
      */
     @RequestMapping(value = "/modifyUser", method = RequestMethod.GET)
-    public String loadUser(String userId, Model model, RedirectAttributes redirectAttributes) {
+    public String viewUser(String userId, Model model, RedirectAttributes redirectAttributes) {
         if (StringUtils.isBlank(userId) || NumberUtils.toLong(userId) == 0) {
             addActionError("请选择您要修改的用户", redirectAttributes);
             return "redirect:userList";
