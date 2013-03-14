@@ -31,7 +31,7 @@ demo 功能查看
   * link、input 等元素不需要闭合：
 `<input name="test" type="text">`
   * 按钮使用 button 元素定义：`<button>我是一个按钮</button>`
-** script 元素可以简写为：`<script src="...引用文件..."></script>、<script>...代码...</script>`
+  * script 元素可以简写为：`<script src="...引用文件..."></script>、<script>...代码...</script>`
   * 避免在 html 元素中直接写事件代码的方式，采用 jQuery 的事件绑定，降低 js 和 html 之间的代码耦合。
 * 充分使用 jQuery 来减少 js 中的重复代码。
 * 避免在页面上直接编写大量 js 代码，如果代码超过 20 行，就应该将代码抽取到独立的 js 文件中。
