@@ -28,8 +28,7 @@ demo 功能查看
 ------------
 
 * html 页面采用 html5 的写法，比如：
-  * link、input 等元素不需要闭合：
-`<input name="test" type="text">`
+  * link、input 等元素不需要闭合：`<input name="test" type="text">`
   * 按钮使用 button 元素定义：`<button>我是一个按钮</button>`
   * script 元素可以简写为：`<script src="...引用文件..."></script>、<script>...代码...</script>`
   * 避免在 html 元素中直接写事件代码的方式，采用 jQuery 的事件绑定，降低 js 和 html 之间的代码耦合。
