@@ -20,15 +20,15 @@ public class MemoryUser implements Serializable {
 
     private static final long serialVersionUID = -6786128717270367146L;
 
-    private Integer id;
+    private long id;
     private String username;
     private String realName;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

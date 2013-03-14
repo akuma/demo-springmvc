@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>js template teset</title>
+<script src="jquery-1.7.2.js"></script>
+<script src="template.min.js"></script>
+</head>
+<body>
+<div id="container">
+</div>
+<script id="test" type="text/html">
+<ul>
+<% for (var i = 0; i < users.length; i++) {
+    var user = users[i]; %>
+  <li><%=users[i].id%> <%=user.username%> <%=user.realName%> <%=user.password%></li>
+<% } %>
+</ul>
+</script>
+<script>
+$.get("../users", function(data) {
+  console.log(data);
+  var users = template.render('test', data);
+  $("#container").html(users);
+}, "json");
+</script>
+</body>
+</html>

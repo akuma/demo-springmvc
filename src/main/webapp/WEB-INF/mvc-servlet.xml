@@ -1,34 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="demo.spring.mvc.controller" />
+    <description>Spring MVC 配置</description>
 
-    <mvc:annotation-driven conversion-service="conversionService" ignoreDefaultModelOnRedirect="true" />
+    <context:property-placeholder location="classpath:application.properties,classpath:freemarker.properties" />
+
+    <!-- 配置自动扫描且只扫描 @Controller -->
+    <context:component-scan base-package="demo.spring.mvc.controller"
+        use-default-filters="false">
+        <context:include-filter type="annotation"
+            expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <mvc:annotation-driven conversion-service="conversionService"
+        ignoreDefaultModelOnRedirect="true">
+        <mvc:message-converters register-defaults="false">
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <list>
-                <bean class="com.guomi.meazza.spring.convert.StringToDateConverter" />
+                <bean class="com.guomi.meazza.spring.convert.CustomStringToNumberConverterFactory" />
+                <bean class="com.guomi.meazza.spring.convert.CustomStringToDateConverter" />
+                <bean class="com.guomi.meazza.spring.convert.CustomStringToArrayConverter" />
             </list>
         </property>
     </bean>
 
+    <mvc:default-servlet-handler />
+
+    <!-- 配置静态资源，直接映射到对应的文件夹，不被 DispatcherServlet 处理 -->
+    <mvc:resources mapping="/img/**" location="/img/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+
     <!-- Configures Handler Interceptors -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/" />
-            <mvc:mapping path="/**/*.htm" />
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/**/*.js" />
+            <mvc:exclude-mapping path="/**/*.css" />
+            <mvc:exclude-mapping path="/**/*.png" />
+            <mvc:exclude-mapping path="/**/*.gif" />
+            <mvc:exclude-mapping path="/**/*.jpg" />
+            <mvc:exclude-mapping path="/**/*.html" />
             <ref bean="commonModelAttributeInterceptor" />
         </mvc:interceptor>
         <mvc:interceptor>
-            <mvc:mapping path="/*/*.htm" />
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/**/*.js" />
+            <mvc:exclude-mapping path="/**/*.css" />
+            <mvc:exclude-mapping path="/**/*.png" />
+            <mvc:exclude-mapping path="/**/*.gif" />
+            <mvc:exclude-mapping path="/**/*.jpg" />
+            <mvc:exclude-mapping path="/**/*.html" />
+            <mvc:exclude-mapping path="/" />
+            <mvc:exclude-mapping path="/index" />
+            <mvc:exclude-mapping path="/login" />
+            <mvc:exclude-mapping path="/demo/**" />
             <bean class="demo.spring.mvc.interceptor.AuthInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
@@ -41,26 +90,22 @@
         </property>
     </bean>
 
-    <!-- Handles HTTP GET requests for static resources -->
-    <mvc:resources mapping="/script/**" location="/script/" />
-    <mvc:resources mapping="/css/**" location="/css/" />
-    <mvc:resources mapping="/style/**" location="/style/" />
-    <mvc:resources mapping="/images/**" location="/images/" />
-    <mvc:resources mapping="/img/**" location="/img/" />
+    <!-- Declare a view resolver -->
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+        p:prefix="/WEB-INF/views/" p:suffix=".jsp" />
 
     <!-- Resolve logical view names to .ftl resources in the /WEB-INF/views directory -->
-    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    <bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="order" value="1" />
         <property name="cache" value="true" />
         <property name="prefix" value="" />
         <property name="suffix" value=".ftl" />
-        <property name="contentType" value="utf-8" />
+        <property name="contentType" value="text/html;charset=UTF-8" />
         <property name="exposeSpringMacroHelpers" value="true" />
         <property name="exposeRequestAttributes" value="true" />
         <property name="exposeSessionAttributes" value="true" />
         <property name="requestContextAttribute" value="request" />
     </bean>
-
-    <context:property-placeholder location="classpath:freemarker.properties" />
 
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/" />
@@ -87,5 +132,19 @@
     </bean>
 
     <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+
+    <!-- Configure the multipart resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+        p:maxUploadSize="${upload.image.max.size}" />
+
+    <!-- 出错页面配置，会被注入到每个 Controller 中 -->
+    <util:map id="exceptionMappings" key-type="java.lang.String" value-type="java.lang.String">
+        <!-- <entry key="com.guomi.clearn.manager.exception.UnauthorizedException" value="common/403" 
+            /> -->
+    </util:map>
+
+    <bean id="defaultErrorView" class="java.lang.String">
+        <constructor-arg value="common/error" />
+    </bean>
 
 </beans>

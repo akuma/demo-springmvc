@@ -4,7 +4,6 @@
  */
 package demo.spring.mvc.service.impl;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public User getUser(Serializable id) {
+    public User getUser(Long id) {
         if (id == null) {
             return null;
         }
@@ -45,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public User getUserByUsername(String username) {
         User user = new User();
         user.setUsername(username);
-        List<User> users = userDao.find(user);
+        List<User> users = userDao.findByEntity(user);
         return users.isEmpty() ? null : users.get(0);
     }
 
@@ -55,7 +54,7 @@ public class UserServiceImpl implements UserService {
             return Collections.emptyList();
         }
 
-        return userDao.find(user);
+        return userDao.findByEntity(user);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
             return Collections.emptyList();
         }
 
-        return userDao.find(user, page);
+        return userDao.findByEntityWithPage(user, page);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modifyUserNotNull(User user) {
+    public void modifyUserIfPossible(User user) {
         if (user == null) {
             return;
         }
@@ -108,11 +107,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        userDao.updateNotNull(user);
+        userDao.updateIfPossible(user);
     }
 
     @Override
-    public void removeUsers(Serializable... ids) {
+    public void removeUsers(Long... ids) {
         if (ArrayUtils.isEmpty(ids)) {
             return;
         }

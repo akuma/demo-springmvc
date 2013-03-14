@@ -27,10 +27,6 @@
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
         </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
@@ -54,5 +50,14 @@
         <welcome-file>default.html</welcome-file>
         <welcome-file>default.htm</welcome-file>
     </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404</location>
+    </error-page>
+    <error-page>
+        <error-code>405</error-code>
+        <location>/404</location>
+    </error-page>
 
 </web-app>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="demo.spring.mvc.dao.UserDao">
+
+    <!-- 一般不需要使用这个配置，如果返回数据包含其他表数据，则可以根据这个配置进行修改
+    <resultMap id="UserResult" type="demo.spring.mvc.entity.User">
+        <result property="id" column="id" javaType="long" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="realName" column="real_name" />
+        <result property="birthday" column="birthday" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="creationTime" column="creation_time" />
+    </resultMap>
+    -->
+
+    <sql id="findColumn">
+        select
+            id as id,
+            username as username,
+            password as password,
+            real_name as realName,
+            birthday as birthday,
+            modify_time as modifyTime,
+            creation_time as creationTime
+        from demo_user
+    </sql>
+
+    <sql id="findCondition">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="password != null">
+                and password = #{password}
+            </if>
+            <if test="realName != null">
+                and real_name = #{realName}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="findConditionWithPage">
+        <where>
+            <if test="param1.id != null">
+                and id = #{param1.id}
+            </if>
+            <if test="param1.username != null">
+                and username = #{param1.username}
+            </if>
+            <if test="param1.password != null">
+                and password = #{param1.password}
+            </if>
+            <if test="param1.realName != null">
+                and real_name = #{param1.realName}
+            </if>
+            <if test="param1.birthday != null">
+                and birthday = #{param1.birthday}
+            </if>
+        </where>
+    </sql>
+
+    <select id="find" parameterType="long" resultType="User">
+        <include refid="findColumn" />
+        where id = #{id}
+    </select>
+
+    <select id="findByEntity" parameterType="User" resultType="User">
+        <include refid="findColumn" />
+        <include refid="findCondition" />
+    </select>
+
+    <select id="findByEntityWithPage" parameterType="map" resultType="User">
+        <include refid="findColumn" />
+        <include refid="findConditionWithPage" />
+    </select>
+
+    <select id="findByParam" parameterType="map" resultType="User">
+        <include refid="findColumn" />
+        <!-- 这里故意返回空列表，使用此方法前请先根据实际业务修改下面的条件 -->
+        where 1 = 0;
+    </select>
+
+    <select id="findByParamWithPage" parameterType="map" resultType="User">
+        <include refid="findColumn" />
+        <!-- 这里故意返回空列表，使用此方法前请先根据实际业务修改下面的条件 -->
+        where 1 = 0;
+    </select>
+
+    <select id="findMap" resultType="User">
+        <include refid="findColumn" />
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into demo_user(
+            username,
+            password,
+            real_name,
+            birthday,
+            creation_time)
+        values(
+            #{username},
+            #{password},
+            #{realName},
+            #{birthday},
+            now())
+    </insert>
+
+    <update id="update" parameterType="User">
+        update demo_user
+        set
+            username = #{username},
+            password = #{password},
+            real_name = #{realName},
+            birthday = #{birthday}
+        where id = #{id}
+    </update>
+
+    <update id="updateIfPossible" parameterType="User">
+        update demo_user
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="birthday != null">birthday = #{birthday}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from demo_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

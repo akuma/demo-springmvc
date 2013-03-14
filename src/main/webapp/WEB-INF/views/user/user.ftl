@@ -1,95 +1,95 @@
 <#if (user.id)??>
-  <#assign moduleName="修改用户信息" isModify=true postAction="modifyUser.htm">
+  <#assign moduleName="修改用户信息" isModify=true postAction="modifyUser">
 <#else>
-  <#assign moduleName="新增用户信息" isModify=false postAction="addUser.htm">
+  <#assign moduleName="新增用户信息" isModify=false postAction="addUser">
 </#if>
 
-<@fm.html>
-<@fm.head title="${moduleName}">
-<script type="text/javascript" language="javascript">
-$(document).ready(function() {
-  $("#saveBtn1").click(function() {
-    ajaxPost("${postAction}", $("#dataForm").serialize(), function(result) {
-       drawMessages(result);
-       if (!hasActionErrors(result)) {
-         <#if !isModify>
-         $("#dataForm")[0].reset();
-         prepare();
-         </#if>
-       }
-    });
+<#macro scriptMacro>
+<script>
+var source;
+$(function() {
+  $(document).on("click", "button", function() {
+    source = this.id;
   });
-
-  $("#saveBtn2").click(function() {
-    ajaxPost("${postAction}", $("#dataForm").serialize(), function(result) {
-       if (hasActionErrors(result)) {
-         drawMessages(result);
-       } else {
-         location.href = "listUser.htm";
-       }
-    });
-  });
-
-  $("#birthday").datepicker({dateFormat: "yy-mm-dd", appendText: " (yyyy-mm-dd)"});
-
-  $("#backBtn").click(function() {
-    location.href = "listUser.htm";
-  });
-
-  $("#username").focus();
 });
 
-function prepare() {
-  $("#username").focus();
-}
-</script>
-</@fm.head>
-<@fm.body currentModule="用户信息管理 &gt;&gt; ${moduleName}">
-<#if isModify>
-<div id="titleMain">
-  <div class="modules">
-    <div class="other"><a href="listUser.htm" class="other">用户信息列表</a></div>
-    <div class="other"><a href="newUser.htm" class="other">新增用户信息</a></div>
-    <div id="current"><a href="" class="current">修改用户信息</a></div>
-  </div>
-</div>
-<#else>
-<div id="titleMain">
-  <div class="modules">
-    <div class="other"><a href="listUser.htm" class="other">用户信息列表</a></div>
-    <div id="current"><a href="" class="current">新增用户信息</a></div>
-    <div class="unusable">修改用户信息</div>
-  </div>
-</div>
+var saveCallback = function(result, event) {
+  if ($.gmc.hasErrors(result)) {
+    $.gmc.drawMessages(result);
+  } else {
+    if (source === "saveBtn1") {
+      $.gmc.drawMessages(result);
+<#if !isModify>
+      $("form input").val("");
+      $("#username").focus();
 </#if>
-<div id="tableMain">
-  <@fm.message />
-  <form id="dataForm" class="form-horizontal">
-    <input type="hidden" id="userId" name="id" value="${(user.id)!}" />
-    <table id="dataTable" class="table table-bordered">
-      <tr>
-        <td width="15%" class="titleTd">用户名</td>
-        <td><input type="text" id="username" name="username" value="${(user.username)!}" /></td>
-      </tr>
-      <tr>
-        <td class="titleTd">密码</td>
-        <td><input type="password" name="password" value="${(user.password)!}" /></td>
-      </tr>
-      <tr>
-        <td class="titleTd">真实姓名</td>
-        <td><input type="text" name="realName" value="${(user.realName)!}" /></td>
-      </tr>
-      <tr>
-        <td class="titleTd">出生日期</td>
-        <td><input type="text" id="birthday" name="birthday" value="${(user.birthday?date)!}" /></td>
-      </tr>
-    </table>
-    <div id="buttonLeft" class=".form-actions">
-      <button id="saveBtn1" class="btn btn-primary" type="button">保存</button>
-      <button id="saveBtn2" class="btn btn-primary" type="button">保存并返回</button>
-      <button id="backBtn" class="btn btn-primary" type="button">返回列表</button>
-    </div>
+    } else {
+      location.href = "userList";
+    }
+  }
+}
+</script> 
+</#macro>
+
+<@fm.framePage title="${moduleName}" scriptMacro=scriptMacro activeModule="user">
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li><a href="userList">用户信息列表</a></li>
+    <#if isModify>
+      <li><a href="addUser">新增用户信息</a></li>
+      <li class="active"><a href="modifyUser?userId=${user.id}">修改用户信息</a></li>
+    <#else>
+      <li class="active"><a href="addUser">新增用户信息</a></li>
+      <li class="disabled"><a>修改用户信息</a></li>
+    </#if>
+    </ul>
+  </div>
+
+  <div class="row-fluid">
+    <@fm.messages />
+  </div>
+
+  <form class="form-horizontal" action="${postAction}" method="post"
+        data-remote="true" data-type="json" data-success="saveCallback">
+    <input type="hidden" id="userId" name="id" value="${(user.id)!}">
+    <fieldset>
+      <!--
+      <legend>Form control states</legend>
+      -->
+      <div class="control-group">
+        <label class="control-label" for="username">用户名</label>
+        <div class="controls">
+          <input type="text" id="username" name="username" value="${(user.username?html)!}" autofocus>
+          <span id="usernameError" class="help-inline">长度小于16个字符</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password">密码</label>
+        <div class="controls">
+          <input type="password" id="password" name="password" value="${(user.password?html)!}">
+          <span id="passwordError" class="help-inline">长度应大于6个字符，小于20个字符</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="realName">真实姓名</label>
+        <div class="controls">
+          <input type="text" id="realName" name="realName" value="${(user.realName?html)!}">
+          <span id="realNameError" class="help-inline">长度应小于64个字符</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="birthday">生日</label>
+        <div class="controls">
+          <input type="text" id="birthday" name="birthday" value="${(user.birthday?date)!}" data-date>
+          <span id="birthdayError" class="help-inline">出生日期，例如：2000-01-01</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button id="saveBtn1" type="submit" class="btn btn-primary">保存</button>
+        <button id="saveBtn2" type="submit" class="btn btn-primary">保存并返回</button>
+        <a class="btn" href="userList">返回列表</a>
+      </div>
+    </fieldset>
   </form>
-</div>
-</@fm.body>
-</@fm.html>
+</@fm.framePage>

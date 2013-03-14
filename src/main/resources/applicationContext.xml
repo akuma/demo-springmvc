@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:cache="http://www.springframework.org/schema/cache"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <context:annotation-config />
-    <context:property-placeholder location="classpath:jdbc.properties" />
-    <context:component-scan base-package="demo.spring.mvc.service" />
-    <context:component-scan base-package="demo.spring.mvc.dao" />
-    <context:component-scan base-package="demo.spring.mvc.util" />
+    <description>Spring 公共配置</description>
 
-    <util:properties id="serverProperties" location="classpath:messageResources.properties" />
+    <context:property-placeholder location="classpath:application.properties,classpath:jdbc.properties" />
+    <util:properties id="appProperties" location="classpath:application.properties" />
+
+    <!-- 配置自动扫描且不扫描 @Controller -->
+    <context:component-scan base-package="demo.spring.mvc">
+        <context:exclude-filter type="annotation"
+            expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
 
     <aop:aspectj-autoproxy />
 
@@ -43,45 +46,33 @@
         </tx:attributes>
     </tx:advice>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <!-- Declare a transaction manager -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+        p:dataSource-ref="dataSource" />
+
+    <!-- Declare a datasource that has pooling capabilities -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+        p:driverClass="${jdbc.driverClassName}" p:jdbcUrl="${jdbc.url}" p:user="${jdbc.username}"
+        p:password="${jdbc.password}" p:loginTimeout="${jdbc.loginTimeout}" p:acquireIncrement="${jdbc.acquireIncrement}"
+        p:idleConnectionTestPeriod="${jdbc.idleConnectionTestPeriod}" p:maxPoolSize="${jdbc.maxPoolSize}"
+        p:minPoolSize="${jdbc.minPoolSize}" p:maxStatements="${jdbc.maxStatements}" />
+
+    <!-- MyBatis config start -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="demo.spring.mvc.dao" />
+        <property name="annotationClass" value="com.guomi.meazza.orm.mybatis.MyBatisRepository" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="demo.spring.mvc.entity" />
+        <property name="configLocation" value="classpath:mybatis.xml" />
     </bean>
 
-    <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="sqlMapClient" />
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+        <constructor-arg index="1" value="SIMPLE" />
     </bean>
-
-    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocation" value="classpath:ibatis.xml" />
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="sqlExecutor" class="com.guomi.meazza.orm.ibatis.LimitSqlExecutor">
-        <property name="dialect">
-            <bean class="com.guomi.meazza.dao.MySqlDialect" />
-        </property>
-    </bean>
-
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClassName}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-        <property name="initialSize" value="${jdbc.initialSize}" />
-        <property name="maxActive" value="${jdbc.maxActive}" />
-        <property name="maxIdle" value="${jdbc.maxIdle}" />
-        <property name="minIdle" value="${jdbc.minIdle}" />
-        <property name="maxWait" value="${jdbc.maxWait}" />
-        <property name="validationQuery" value="${jdbc.validationQuery}" />
-        <property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
-        <property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
-        <property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
-        <property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}" />
-        <property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
-        <property name="poolPreparedStatements" value="${jdbc.poolPreparedStatements}" />
-        <property name="maxOpenPreparedStatements" value="${jdbc.maxOpenPreparedStatements}" />
-        <property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
-        <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
-    </bean>
+    <!-- MyBatis config end -->
 
 </beans>
