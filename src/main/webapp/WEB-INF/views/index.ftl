@@ -16,6 +16,15 @@ $(function() {
 </#macro>
 
 <@fm.simplePage title="${(systemInfo.id)!}" styles="login.css" scriptMacro=scriptMacro>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></a>
+        <a class="brand" href="${request.contextPath}">${systemInfo.name}</a>
+      </div>
+    </div>
+  </div>
+
   <form class="form-signin" action="login" method="post">
     <h2 class="form-signin-heading">Please sign in</h2>
     <@fm.messages />

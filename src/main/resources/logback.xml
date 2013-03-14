@@ -41,7 +41,7 @@
         <appender-ref ref="Console" />
     </logger>
 
-    <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework" level="ERROR" />
     <logger name="demo.spring.mvc" level="DEBUG" />
     <logger name="demo.spring.mvc.dao" level="INFO" />
 

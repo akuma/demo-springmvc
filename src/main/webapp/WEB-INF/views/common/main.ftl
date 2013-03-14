@@ -5,31 +5,56 @@
 <#assign applicationStyles=["main.css"]>
 
 <#-- 包含公共 css、js 资源的页面宏 -->
-<#macro simplePage title="未命名" styles="" scripts="" styleMacro="" scriptMacro="" noContainer=false>
+<#macro simplePage title="未命名" styles="" scripts="" styleMacro="" scriptMacro="" noContainer=false useHeader=true>
 <@gmPage title=title styles=mergeStyles(applicationStyles, styles) scripts=scripts styleMacro=styleMacro scriptMacro=scriptMacro>
-<#if noContainer>
-  <#nested>
-<#else>
+<#if !noContainer>
 <div class="container">
+</#if>
+
+<#if useHeader>
+  <@simpleHeader />
+</#if>
+
   <#nested>
+
+<#if useHeader>
+  <@simpleFooter />
+</#if>
+
+<#if !noContainer>
 </div>
 </#if>
 </@gmPage>
 </#macro>
 
-<#macro framePage title="未命名" styles="" scripts="" styleMacro="" scriptMacro="">
-<@simplePage title=title styles=styles scripts=scripts styleMacro=styleMacro scriptMacro=scriptMacro noContainer=true>
-  <@header/>
+<#assign allModules = [
+    {"id" : "user", "name" : "用户信息管理", "path" : "/user/userList"},
+    {"id" : "group", "name" : "用户组管理", "path" : ""}
+]>
+
+<#macro framePage title="未命名" styles="" scripts="" styleMacro="" scriptMacro="" activeModule="">
+<@simplePage title=title styles=styles scripts=scripts styleMacro=styleMacro
+             scriptMacro=scriptMacro noContainer=true useHeader=false>
+  <@frameHeader />
 
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span2">
         <div class="well sidebar-nav">
           <ul class="nav nav-list">
-            <li class="nav-header">用户信息管理</li>
-            <li class="active"><a href="${request.contextPath}/user/userList">用户信息管理</a></li>
-            <li class="nav-header">退出系统</li>
-            <li><a href="${request.contextPath}/logout">退出</a></li>
+            <li class="nav-header"></li>
+          <#list allModules as module>
+
+            <#local modulePath = module["path"]>
+            <#if modulePath != "">
+              <#local modulePath = request.contextPath + modulePath>
+            <#else>
+              <#local modulePath = "javascript:;">
+            </#if>
+            <li<#if module["id"] == activeModule> class="active"</#if>>
+              <a href="${modulePath}">${module["name"]}</a>
+            </li>
+          </#list>
           </ul>
         </div><!--/.well -->
       </div><!--/span-->
@@ -39,12 +64,7 @@
       </div><!--/span-->
     </div><!--/.row-fluid-->
 
-    <hr>
-
-    <footer>
-      <p>&copy; 2013 GM</p>
-    </footer>
+    <@simpleFooter />
   </div><!--/.container-fluid -->
-
 </@simplePage>
 </#macro>

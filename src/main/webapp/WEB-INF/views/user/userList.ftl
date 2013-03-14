@@ -15,7 +15,7 @@ $(document).ready(function() {
 </script>
 </#macro>
 
-<@fm.framePage title="用户信息列表" scriptMacro=scriptMacro>
+<@fm.framePage title="用户信息列表" scriptMacro=scriptMacro activeModule="user">
   <div class="tabbable">
     <ul class="nav nav-tabs">
       <li class="active"><a href="userList">用户信息列表</a></li>

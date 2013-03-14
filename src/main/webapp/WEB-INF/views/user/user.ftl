@@ -1,3 +1,9 @@
+<#if (user.id)??>
+  <#assign moduleName="修改用户信息" isModify=true postAction="modifyUser">
+<#else>
+  <#assign moduleName="新增用户信息" isModify=false postAction="addUser">
+</#if>
+
 <#macro scriptMacro>
 <script>
 var source;
@@ -25,19 +31,13 @@ var saveCallback = function(result, event) {
 </script> 
 </#macro>
 
-<#if (user.id)??>
-  <#assign moduleName="修改用户信息" isModify=true postAction="modifyUser">
-<#else>
-  <#assign moduleName="新增用户信息" isModify=false postAction="addUser">
-</#if>
-
-<@fm.framePage title="${moduleName}" scriptMacro=scriptMacro>
+<@fm.framePage title="${moduleName}" scriptMacro=scriptMacro activeModule="user">
   <div class="tabbable">
     <ul class="nav nav-tabs">
       <li><a href="userList">用户信息列表</a></li>
     <#if isModify>
       <li><a href="addUser">新增用户信息</a></li>
-      <li class="active" href="modifyUser?userId=${user.id}"><a>修改用户信息</a></li>
+      <li class="active"><a href="modifyUser?userId=${user.id}">修改用户信息</a></li>
     <#else>
       <li class="active"><a href="addUser">新增用户信息</a></li>
       <li class="disabled"><a>修改用户信息</a></li>

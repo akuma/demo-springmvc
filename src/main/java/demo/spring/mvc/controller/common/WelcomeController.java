@@ -2,7 +2,7 @@
  * @(#)WelcomeController.java    Created on 2010-7-14
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
-package demo.spring.mvc.controller.frame;
+package demo.spring.mvc.controller.common;
 
 import java.util.Date;
 
@@ -17,7 +17,7 @@ import demo.spring.mvc.controller.BasicController;
 import demo.spring.mvc.service.UserService;
 
 /**
- * 登录系统后的框架页面相关的 Action 类。
+ * 登录系统后的框架页面相关的 Controller。
  * 
  * @author akuma
  */

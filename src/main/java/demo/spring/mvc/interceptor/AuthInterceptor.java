@@ -13,7 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.guomi.meazza.util.ServletUtils;
 
-import demo.spring.mvc.controller.frame.LoginController;
+import demo.spring.mvc.controller.common.LoginController;
 import demo.spring.mvc.dto.MemoryUser;
 
 /**
@@ -43,11 +43,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 输出 json 格式的刷新页面的字符串到响应中。
-     * 
-     * @param response
-     *            HTTP 响应对象
-     * @throws IOException
-     *             IO 操作异常时抛出
      */
     private void printJsonResponse(HttpServletResponse response) throws IOException {
         // 这里特别需要注意两点，否则 jQuery 解析响应结果时会出现异常：

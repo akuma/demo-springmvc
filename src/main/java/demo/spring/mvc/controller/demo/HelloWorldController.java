@@ -2,7 +2,7 @@
  * @(#)HelloWorldController.java    Created on 2012-3-12
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
-package demo.spring.mvc.controller;
+package demo.spring.mvc.controller.demo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,17 +24,14 @@ import com.guomi.meazza.spring.mvc.JsonViewHelper;
 import demo.spring.mvc.entity.User;
 
 /**
- * Hello World 控制器。
+ * Hello World Controller。
  * 
  * @author akuma
  */
 @Controller
 public class HelloWorldController {
 
-    /**
-     * Say hello world.
-     */
-    @RequestMapping(value = "/hello.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @ResponseBody
     public String hello() {
         return "Hello, Spring MVC!";

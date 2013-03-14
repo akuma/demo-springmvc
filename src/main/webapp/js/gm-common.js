@@ -26,7 +26,7 @@
     messageBoxCloseBtn_ : "<button type='button' class='close' data-dismiss='alert'>&times;</button>",
 
     // ajax 操作成功时（仅仅是 status 200，也可能包含业务错误）的回调接口
-    ajaxSuccess : function(data, evt, status, xhr, pageFragmentId) {
+    ajaxSuccess : function(data, status, xhr, pageFragmentId) {
       var ct = xhr.getResponseHeader("content-type") || "";
       if (ct.indexOf("text/html") == -1) {
         // 判断返回的数据类型，如果是 string，则需要解析为 json 对象
@@ -316,7 +316,7 @@
       // 获取在返回 html 数据时需要被替换内容的页面片段节点 ID
       var pageFragmentId = $(this).data("fragment");
       try {
-        dataCallback(data, evt, status, xhr, pageFragmentId);
+        dataCallback(data, status, xhr, pageFragmentId);
       } catch (e) {
         $("#hx-loading-box").hide();
         if (console) {

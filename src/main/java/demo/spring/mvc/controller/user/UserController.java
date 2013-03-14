@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.guomi.meazza.dao.DataExistsException;
 import com.guomi.meazza.spring.mvc.ResponseMessage;
 import com.guomi.meazza.util.Pagination;
+import com.guomi.meazza.util.StringUtils;
 
 import demo.spring.mvc.controller.BasicController;
 import demo.spring.mvc.entity.User;
@@ -99,12 +99,12 @@ public class UserController extends BasicController {
      */
     @RequestMapping(value = "/modifyUser", method = RequestMethod.GET)
     public String loadUser(String userId, Model model, RedirectAttributes redirectAttributes) {
-        if (userId == null) {
+        if (StringUtils.isBlank(userId) || NumberUtils.toLong(userId) == 0) {
             addActionError("请选择您要修改的用户", redirectAttributes);
             return "redirect:userList";
         }
 
-        User user = userService.getUser(userId);
+        User user = userService.getUser(NumberUtils.toLong(userId));
         if (user == null) {
             addActionError("您选择的用户不存在或者已经被删除", redirectAttributes);
             return "redirect:userList";
@@ -142,12 +142,12 @@ public class UserController extends BasicController {
     @RequestMapping(value = "/removeUser", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage removeUser(String userId, Model model) {
-        if (StringUtils.isEmpty(userId)) {
+        if (StringUtils.isBlank(userId) || NumberUtils.toLong(userId) == 0) {
             addActionError("请选择您要删除的用户", model);
             return getResponseMessage(model);
         }
 
-        userService.removeUsers(userId);
+        userService.removeUsers(NumberUtils.toLong(userId));
         addActionMessage("删除用户成功", model);
 
         return getResponseMessage(model);

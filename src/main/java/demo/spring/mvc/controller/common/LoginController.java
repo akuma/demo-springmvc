@@ -2,7 +2,7 @@
  * @(#)LoginController.java    Created on 2010-7-14
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
-package demo.spring.mvc.controller.frame;
+package demo.spring.mvc.controller.common;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
 
 /**
- * 处理用户登入、登出系统的 Action。
+ * 处理用户登入、登出系统的 Controller。
  * 
  * @author akuma
  */
@@ -42,6 +42,10 @@ public class LoginController extends BasicController {
      */
     @RequestMapping({ "/", "/index" })
     public String index(WebRequest request, Model model) {
+        if (getMemoryUser() != null) {
+            return "redirect:/welcome";
+        }
+
         // 获取用户尚未登录的标记，如果存在，则给出提示信息并清除该标记
         Boolean loginState = (Boolean) request.getAttribute(SESSION_KEY_NOT_LOGIN, RequestAttributes.SCOPE_SESSION);
         if (loginState != null && loginState.booleanValue()) {

@@ -4,7 +4,6 @@
  */
 package demo.spring.mvc.service.impl;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public User getUser(Serializable id) {
+    public User getUser(Long id) {
         if (id == null) {
             return null;
         }
@@ -112,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUsers(Serializable... ids) {
+    public void removeUsers(Long... ids) {
         if (ArrayUtils.isEmpty(ids)) {
             return;
         }

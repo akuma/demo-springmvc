@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,9 +19,8 @@ import org.junit.Test;
 import com.guomi.meazza.test.BasicTestCase;
 import com.guomi.meazza.util.Pagination;
 
+import demo.spring.mvc.dao.UserDao;
 import demo.spring.mvc.entity.User;
-import demo.spring.mvc.repository.UserDao;
-import demo.spring.mvc.repository2.UserBatchMapper;
 
 /**
  * @author akuma
@@ -31,8 +29,6 @@ public class UserDaoTest extends BasicTestCase {
 
     @Resource
     private UserDao userDao;
-    @Resource
-    private UserBatchMapper userBatchMapper;
 
     @Test
     public void testCrudOps() {
@@ -66,10 +62,10 @@ public class UserDaoTest extends BasicTestCase {
         assertEquals(dbUser.getPassword(), user.getPassword());
         assertEquals(dbUser.getRealName(), user.getRealName());
 
-        Map<Object, User> users = userBatchMapper.findMapByUsername(user.getUsername(), user2.getUsername());
-        assertEquals(2, users.size());
-        assertNotNull(users.get(user.getUsername()));
-        assertNotNull(users.get(user2.getUsername()));
+        //        Map<Object, User> users = userBatchMapper.findMapByUsername(user.getUsername(), user2.getUsername());
+        //        assertEquals(2, users.size());
+        //        assertNotNull(users.get(user.getUsername()));
+        //        assertNotNull(users.get(user2.getUsername()));
 
         // Update if possible
         String username = user.getUsername();
