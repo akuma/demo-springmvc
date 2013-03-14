@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>demo.spring.mvc</groupId>
     <artifactId>demo-spring-mvc</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>war</packaging>
-    <description>A demo for demonstrating Spring MVC Framework.</description>
+    <description>A webapp for demonstrating Spring MVC Framework.</description>
 
     <properties>
         <maven.compile.source>1.7</maven.compile.source>
@@ -23,7 +23,7 @@
         <freemarker.version>2.3.19</freemarker.version>
         <meazza.version>0.0.42</meazza.version>
 
-        <webapp.contextPath>/springmvc</webapp.contextPath>
+        <webapp.contextPath>/demoapp</webapp.contextPath>
         <webapp.port>8080</webapp.port>
     </properties>
 
