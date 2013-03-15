@@ -82,7 +82,7 @@
 <script src="${request.contextPath}/js/jquery-ui.min.js"></script>
 <script src="${request.contextPath}/js/jquery-ujs.min.js"></script>
 <script src="${request.contextPath}/js/bootstrap.min.js"></script>
-<script src="${request.contextPath}/js/gm-common.js"></script>
+<script src="${request.contextPath}/js/gm-common.min.js"></script>
 </#macro>
 
 <#-- 包含通用 css、js 的 html 宏定义 -->
