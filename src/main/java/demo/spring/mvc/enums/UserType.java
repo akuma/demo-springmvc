@@ -1,6 +1,6 @@
 /* 
  * @(#)UserType.java    Created on 2013-1-6
- * Copyright (c) 2013 Guomi. All rights reserved.
+ * Copyright (c) 2013 Akuma. All rights reserved.
  */
 package demo.spring.mvc.enums;
 

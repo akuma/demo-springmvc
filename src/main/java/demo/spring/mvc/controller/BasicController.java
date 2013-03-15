@@ -71,7 +71,7 @@ public abstract class BasicController extends AbstractController {
 
     /**
      * 添加 Freemarker 模版页面调用 Java 枚举类的支持。<br>
-     * 在 freemarker 页面上这样使用：${enums["com.guomi.clearn.student.enums.UserType"].TEACHER.getText()}
+     * 在 freemarker 页面上这样使用：${enums["demo.spring.mvc.enums.UserType"].TEACHER.getText()}
      */
     protected void enableEnumsForTemplate(Model model) {
         model.addAttribute("enums", BeansWrapper.getDefaultInstance().getEnumModels());
