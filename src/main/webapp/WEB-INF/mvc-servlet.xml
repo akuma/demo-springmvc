@@ -139,8 +139,7 @@
 
     <!-- 出错页面配置，会被注入到每个 Controller 中 -->
     <util:map id="exceptionMappings" key-type="java.lang.String" value-type="java.lang.String">
-        <!-- <entry key="com.guomi.clearn.manager.exception.UnauthorizedException" value="common/403" 
-            /> -->
+        <!-- <entry key="demo.spring.mvc.exception.UnauthorizedException" value="common/403" /> -->
     </util:map>
 
     <bean id="defaultErrorView" class="java.lang.String">
