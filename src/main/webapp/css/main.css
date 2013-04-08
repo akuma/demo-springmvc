@@ -15,3 +15,24 @@ body {
     padding-right: 5px;
   }
 }
+
+.loading-box-wrapper {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10240;
+}
+
+.loading-box {
+  padding: 5px 30px;
+  border: 1px solid #f0c36d;
+  border-radius: 0 0 2px 2px;
+  border-color: #f0c36d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  display: table;
+  margin: 0 auto;
+  font-size: 14px;
+  font-weight: bold;
+  background: #fff1a8 url(../img/ic-loading.gif) no-repeat 7px 6px;
+}
