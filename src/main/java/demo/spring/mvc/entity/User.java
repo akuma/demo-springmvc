@@ -5,8 +5,6 @@
 package demo.spring.mvc.entity;
 
 import java.util.Date;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.guomi.meazza.support.LongIdEntity;
 
@@ -54,11 +52,6 @@ public class User extends LongIdEntity {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }
