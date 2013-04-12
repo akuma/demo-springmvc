@@ -19,9 +19,9 @@
         <slf4j.version>1.6.4</slf4j.version>
         <logback.version>1.0.3</logback.version>
         <spring.version>3.2.0.RELEASE</spring.version>
-        <mybatis.version>3.1.1</mybatis.version>
+        <mybatis.version>3.2.2</mybatis.version>
         <freemarker.version>2.3.19</freemarker.version>
-        <meazza.version>0.0.42</meazza.version>
+        <meazza.version>0.0.43</meazza.version>
 
         <webapp.contextPath>/demoapp</webapp.contextPath>
         <webapp.port>8080</webapp.port>
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.1.1</version>
+            <version>1.2.0</version>
         </dependency>
 
         <dependency>

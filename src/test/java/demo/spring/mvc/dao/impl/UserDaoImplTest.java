@@ -85,9 +85,21 @@ public class UserDaoImplTest extends BasicTestCase {
         user2.setPassword("123456");
         user2.setRealName("测试用户");
 
-        // userDao.inserts(user1, user2);
+        //userDao.inserts(user1, user2);
         userDao.insert(user1);
         userDao.insert(user2);
+
+        // 现在还获取不到生成的 ID
+        System.out.println(user1.getId());
+        System.out.println(user2.getId());
+
+        // 发起一个查询操作，具体做什么不重要 -___-
+        // 这样会触发 mybatis 刷新 batch statements，然后自动生成的主键才能自动设置到实体对象中
+        userDao.find(null);
+
+        // 现在可以获得生成的 ID
+        System.out.println(user1.getId());
+        System.out.println(user2.getId());
 
         Map<Long, User> users = userDao.findMap(user1.getId(), user2.getId());
         System.out.println(users);

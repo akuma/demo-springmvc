@@ -71,7 +71,7 @@
 
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory" />
-        <constructor-arg index="1" value="SIMPLE" />
+        <constructor-arg index="1" value="BATCH" />
     </bean>
     <!-- MyBatis config end -->
 
