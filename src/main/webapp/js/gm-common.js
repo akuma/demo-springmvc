@@ -117,8 +117,8 @@
 
       var fieldErrors = reply.fieldErrors;
       if (fieldErrors) {
-        var $firstFieldErrorBox;
-            $firstErrorField;
+        var $firstFieldErrorBox,
+            $firstErrorField,
             fieldName;
 
         for (fieldName in fieldErrors) {
@@ -315,7 +315,7 @@
   $(function() {
     // Show loading status when ajax call
     var ajaxLoadingBox = "<div id='hx-loading-box' class='loading-box-wrapper' style='display:none'>" +
-        "<div class='loading-box'>数据加载中...</div></div>";
+        "<div class='loading-box'>正在加载...</div></div>";
     $("body").append(ajaxLoadingBox);
     $(document).ajaxStart(function() {
       $("#hx-loading-box").show();
