@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.mybatis.spring.SqlSessionTemplate;
 
 import com.guomi.meazza.test.BasicTestCase;
 
@@ -28,6 +29,8 @@ public class UserDaoImplTest extends BasicTestCase {
 
     @Resource
     private UserDao userDao;
+    @Resource
+    private SqlSessionTemplate sessionTemplate;
 
     @Test
     public void testCrudOps() {
@@ -37,6 +40,7 @@ public class UserDaoImplTest extends BasicTestCase {
         user.setRealName("测试用户");
 
         userDao.insert(user);
+        userDao.find(null);
 
         User dbUser = userDao.find(user.getId());
         assertNotNull(dbUser);
@@ -93,9 +97,8 @@ public class UserDaoImplTest extends BasicTestCase {
         System.out.println(user1.getId());
         System.out.println(user2.getId());
 
-        // 发起一个查询操作，具体做什么不重要 -___-
-        // 这样会触发 mybatis 刷新 batch statements，然后自动生成的主键才能自动设置到实体对象中
-        userDao.find(null);
+        // 刷新 batch statements，生成的主键才能返回
+        sessionTemplate.flushStatements();
 
         // 现在可以获得生成的 ID
         System.out.println(user1.getId());
@@ -103,6 +106,15 @@ public class UserDaoImplTest extends BasicTestCase {
 
         Map<Long, User> users = userDao.findMap(user1.getId(), user2.getId());
         System.out.println(users);
+
+        // 测试分页方法
+        //        Map<String, String> param = new HashMap<>();
+        //        param.put("username", "%");
+        //        Pagination page = new Pagination();
+        //        page.setPageNum(2);
+        //        User user = new User();
+        //        user.setUsername("%");
+        //        userDao.findByParamWithPage(user, page);
     }
 
 }

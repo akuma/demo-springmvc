@@ -20,8 +20,9 @@
         <logback.version>1.0.3</logback.version>
         <spring.version>3.2.0.RELEASE</spring.version>
         <mybatis.version>3.2.2</mybatis.version>
+        <mybatis-spring.version>1.2.0</mybatis-spring.version>
         <freemarker.version>2.3.19</freemarker.version>
-        <meazza.version>0.0.43</meazza.version>
+        <meazza.version>0.0.45</meazza.version>
 
         <webapp.contextPath>/demoapp</webapp.contextPath>
         <webapp.port>8080</webapp.port>
@@ -136,7 +137,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.2.0</version>
+            <version>${mybatis-spring.version}</version>
         </dependency>
 
         <dependency>

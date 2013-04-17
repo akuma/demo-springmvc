@@ -32,7 +32,7 @@ import demo.spring.mvc.service.UserService;
 @RequestMapping("/")
 public class LoginController extends BasicController {
 
-    public static final String SESSION_KEY_NOT_LOGIN = "demo.spring.mvc.controller.frame.LoginController.NOT_LOGIN";
+    public static final String SESSION_KEY_NOT_LOGIN = "LoginController.NOT_LOGIN";
 
     @Resource
     private UserService userService;

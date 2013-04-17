@@ -130,6 +130,7 @@
     <update id="updateIfPossible" parameterType="User">
         update demo_user
         <set>
+            <if test="id != null">id = #{id},</if>
             <if test="username != null">username = #{username},</if>
             <if test="password != null">password = #{password},</if>
             <if test="realName != null">real_name = #{realName},</if>

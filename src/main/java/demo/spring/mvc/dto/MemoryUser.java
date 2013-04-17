@@ -4,33 +4,19 @@
  */
 package demo.spring.mvc.dto;
 
-import java.io.Serializable;
+import com.guomi.meazza.support.AbstractMemoryUser;
 
 /**
  * 用于保存在 Session 中的用户信息类。
  * 
  * @author akuma
  */
-public class MemoryUser implements Serializable {
-
-    /**
-     * MemoryUser 对象在 session 中的 key 值。
-     */
-    public static final String KEY = "memoryUser";
+public class MemoryUser extends AbstractMemoryUser<Long> {
 
     private static final long serialVersionUID = -6786128717270367146L;
 
-    private long id;
     private String username;
     private String realName;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
