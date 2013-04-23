@@ -67,17 +67,25 @@
         </where>
     </sql>
 
+    <sql id="findByIds">
+        <include refid="findColumn" />
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </sql>
+
     <select id="find" parameterType="long" resultType="User">
         <include refid="findColumn" />
         where id = #{id}
     </select>
 
     <select id="findByIds" resultType="User">
-        <include refid="findColumn" />
-        where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        <include refid="findByIds" />
+    </select>
+
+    <select id="findMap" resultType="User">
+        <include refid="findByIds"/>
     </select>
 
     <select id="findByEntity" parameterType="User" resultType="User">
@@ -100,14 +108,6 @@
         <include refid="findColumn" />
         <!-- 这里故意返回空列表，使用此方法前请先根据实际业务修改下面的条件 -->
         where 1 = 0;
-    </select>
-
-    <select id="findMap" resultType="User">
-        <include refid="findColumn" />
-        where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
     </select>
 
     <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
