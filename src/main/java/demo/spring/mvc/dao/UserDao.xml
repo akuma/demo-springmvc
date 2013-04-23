@@ -72,6 +72,14 @@
         where id = #{id}
     </select>
 
+    <select id="findByIds" resultType="User">
+        <include refid="findColumn" />
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
     <select id="findByEntity" parameterType="User" resultType="User">
         <include refid="findColumn" />
         <include refid="findCondition" />

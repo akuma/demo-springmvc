@@ -8,7 +8,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -104,8 +106,11 @@ public class UserDaoImplTest extends BasicTestCase {
         System.out.println(user1.getId());
         System.out.println(user2.getId());
 
-        Map<Long, User> users = userDao.findMap(user1.getId(), user2.getId());
-        System.out.println(users);
+        Map<Long, User> userMap = userDao.findMap(user1.getId(), user2.getId());
+        assertTrue(userMap.size() == 2);
+
+        List<User> userList = userDao.findByIds(user1.getId(), user2.getId());
+        assertTrue(userList.size() == 2);
 
         // 测试分页方法
         //        Map<String, String> param = new HashMap<>();
