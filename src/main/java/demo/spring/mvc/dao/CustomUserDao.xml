@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="demo.spring.mvc.dao.CustomUserDao">
+
+    <sql id="findColumn">
+        <!-- 直接引用 UserDao 中的定义，减少重复代码 -->
+        <include refid="demo.spring.mvc.dao.UserDao.findColumn" />
+    </sql>
+
+    <select id="findByUsername" parameterType="string" resultType="User">
+        <include refid="findColumn" />
+        where username = #{username}
+    </select>
+
+</mapper>

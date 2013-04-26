@@ -1,8 +1,8 @@
 /* 
- * @(#)UserDaoImplTest.java    Created on 2010-12-7
+ * @(#)UserDaoTest.java    Created on 2010-12-7
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
-package demo.spring.mvc.dao.impl;
+package demo.spring.mvc.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,13 +21,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.guomi.meazza.test.BasicTestCase;
 
-import demo.spring.mvc.dao.UserDao;
 import demo.spring.mvc.entity.User;
 
 /**
  * @author akuma
  */
-public class UserDaoImplTest extends BasicTestCase {
+public class UserDaoTest extends BasicTestCase {
 
     @Resource
     private UserDao userDao;
