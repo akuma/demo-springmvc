@@ -80,8 +80,8 @@
         exceptionHtml += "</div>";
         $messageBox.append($(exceptionHtml).addClass(gmc.exceptionErrorClass_));
 
-        position = $messageBox.position();
-        window.scrollTo(0, position.top - 20);
+        position = $messageBox.offset();
+        window.scrollTo(0, position.top - 200);
         return;
       }
 
@@ -96,8 +96,8 @@
 
         $messageBox.append($(messageHtml).addClass(gmc.actionMessageClass_));
 
-        position = $messageBox.position();
-        window.scrollTo(0, position.top - 20);
+        position = $messageBox.offset();
+        window.scrollTo(0, position.top - 200);
       }
 
       var errors = gmc.getErrors(reply),
@@ -110,8 +110,8 @@
         errorHtml += "</ul></div>";
         $messageBox.append($(errorHtml).addClass(gmc.actionErrorClass_));
 
-        position = $messageBox.position();
-        window.scrollTo(0, position.top - 20);
+        position = $messageBox.offset();
+        window.scrollTo(0, position.top - 200);
       }
 
       var fieldErrors = reply.fieldErrors;
@@ -165,8 +165,8 @@
         }
 
         if ($firstFieldErrorBox && !hasActionMessages && !hasActionErrors) {
-          var firstPosition = $firstFieldErrorBox.position();
-          window.scrollTo(0, firstPosition.top - 20);
+          var firstPosition = $firstFieldErrorBox.offset();
+          window.scrollTo(0, firstPosition.top - 200);
         }
       }
     },
