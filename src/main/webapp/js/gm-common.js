@@ -13,8 +13,8 @@
   }
 
   var document = window.document,
-      console = window.console,
-      gmc;
+  console = window.console,
+  gmc;
 
   $.gmc = gmc = {
 
@@ -35,13 +35,13 @@
     // ajax 操作成功时（仅仅是 status 200，也可能包含业务错误）的回调接口
     ajaxSuccess : function(data, status, xhr, pageFragmentId) {
       var ct = xhr.getResponseHeader("content-type") || "";
-      if (ct.indexOf("text/html") == -1) {
+      if (ct.indexOf("text/html") === -1) {
         // 判断返回的数据类型，如果是 string，则需要解析为 json 对象
         if ($.type(data) === "string") {
           data = $.parseJSON(data);
         }
         gmc.drawMessages(data);
-      } else if ($("#" + pageFragmentId)[0]) {
+      } else if ($("#" + pageFragmentId).length) {
         $("#" + pageFragmentId).html(data);
       }
     },
@@ -64,16 +64,17 @@
 
       // 显示系统提示信息的 div 容器
       var $messageBox = $("#" + messageBoxId);
-      if (!$messageBox[0]) {
+      if (!$messageBox.length) {
         $("body").prepend("<div id=\"" + gmc.messageBoxId_ + "\"></div>");
         $messageBox = $("#" + gmc.messageBoxId_);
       }
 
       // 如果返回消息有错误, 则显示异常信息
       if (xhr && xhr.status != 200 || reply.exception) {
-        var statusCode = xhr ? xhr.status : "";
-        var statusText = xhr ? xhr.statusText : "";
-        var exceptionHtml = "<div>" + gmc.messageBoxCloseBtn_;
+        var statusCode = xhr ? xhr.status : "",
+        statusText = xhr ? xhr.statusText : "",
+        exceptionHtml = "<div>" + gmc.messageBoxCloseBtn_;
+
         exceptionHtml += "<h4>" + statusText + " " + statusCode + "</h4>";
         exceptionHtml += ((statusCode === 404 || statusCode === 405) ? "您请求的资源不存在。" : "对不起，服务器开小差了，请稍后再试试吧！");
         exceptionHtml += "</div>";
@@ -87,7 +88,7 @@
       var hasActionMessages = gmc.hasMessages(reply);
       if (hasActionMessages) {
         var messages = gmc.getMessages(reply),
-            messageHtml = "<div>" + gmc.messageBoxCloseBtn_ + "<ul>";
+        messageHtml = "<div>" + gmc.messageBoxCloseBtn_ + "<ul>";
         for (i = 0; i < messages.length; i++) {
           messageHtml += "<li>" + messages[i] + "</li>";
         }
@@ -96,13 +97,11 @@
         $messageBox.append($(messageHtml).addClass(gmc.actionMessageClass_));
 
         position = $messageBox.position();
-        // 定位修改
-        window.location.hash = "#" + messageBoxId;
-        //window.scrollTo(0, position.top - 20);
+        window.scrollTo(0, position.top - 20);
       }
 
       var errors = gmc.getErrors(reply),
-          hasActionErrors = errors && errors.length > 0;
+      hasActionErrors = errors && errors.length > 0;
       if (hasActionErrors) {
         var errorHtml = "<div>" + gmc.messageBoxCloseBtn_ + "<ul>";
         for (i = 0; i < errors.length; i++) {
@@ -118,14 +117,15 @@
       var fieldErrors = reply.fieldErrors;
       if (fieldErrors) {
         var $firstFieldErrorBox,
-            $firstErrorField,
-            fieldName;
+        $firstErrorField,
+        fieldName;
 
         for (fieldName in fieldErrors) {
           var anError = fieldErrors[fieldName][0],
-              useDriftStyle = false,
-              escapeFieldName = fieldName.replace(/\[/, "\\[").replace(/\]/, "\\]"),
-              fieldErrorBox = $("#" + escapeFieldName + "Error")[0];
+          useDriftStyle = false,
+          escapeFieldName = fieldName.replace(/\[/, "\\[").replace(/\]/, "\\]"),
+          fieldErrorBox = $("#" + escapeFieldName + "Error")[0];
+
           if (!fieldErrorBox) {
             useDriftStyle = true;
             fieldErrorBox = document.createElement("div");
@@ -134,7 +134,7 @@
 
           // 获取删除了 spring 返回的数组 error 字段中的 [xx] 部分，如：answer[0] => answer
           var fieldNameWithoutSq = fieldName.replace(/\[.*\]/, ""),
-              $field = $("[name='" + fieldNameWithoutSq + "']").first();
+          $field = $("[name='" + fieldNameWithoutSq + "']").first();
           if (!$firstErrorField) {
             $firstErrorField = $field;
             $firstErrorField.focus();
@@ -153,8 +153,9 @@
             });
             $field.after(fieldErrorBox);
 
-            $field.bind("mouseover", gmc.mouseoverHandler).bind("mouseout", gmc.mouseoutHandler).bind("focus",
-                gmc.focusHandler).bind("blur", gmc.blurHandler);
+            $field.bind("mouseover", gmc.mouseoverHandler)
+                  .bind("mouseout", gmc.mouseoutHandler)
+                  .bind("focus",gmc.focusHandler).bind("blur", gmc.blurHandler);
             $field.mouseover();
           }
 
@@ -176,7 +177,7 @@
         var array = document.getElementsByTagName("input"), i;
         if (array.length > 0) {
           for (i = 0; i < array.length; i++) {
-            if (array[i].type == "submit") {
+            if (array[i].type === "submit") {
               array[i].disabled = false;
             }
           }
@@ -290,12 +291,12 @@
     },
 
     stackTraceSwitch : function() {
-      if ($("#stackTrace").css("display") == "none") {
-        $("#stackTrace").css("display", "");
+      if ($("#stackTrace").is(":hidden")) {
         $("#stackTraceText").text("隐藏错误详情");
+        $("#stackTrace").show();
       } else {
-        $("#stackTrace").css("display", "none");
         $("#stackTraceText").text("显示错误详情");
+        $("#stackTrace").hide();
       }
     },
 
@@ -315,12 +316,25 @@
   $(function() {
     // Show loading status when ajax call
     var ajaxLoadingBox = "<div id='hx-loading-box' class='loading-box-wrapper' style='display:none'>" +
-        "<div class='loading-box'>正在加载...</div></div>";
+      "<div class='loading-box'>正在加载...</div></div>";
     $("body").append(ajaxLoadingBox);
     $(document).ajaxStart(function() {
       $("#hx-loading-box").show();
     }).ajaxStop(function() {
       $("#hx-loading-box").hide();
+    }).ajaxSuccess(function(event, xhr) {
+      var data = xhr.responseText,
+      ct = xhr.getResponseHeader("content-type") || "";
+      // 判断返回的数据类型，如果是 string，则需要解析为 json 对象
+      if (ct.indexOf("text/html") === -1) {
+        if ($.type(data) === "string") {
+          data = $.parseJSON(data);
+          // 如果是一段脚本则执行，主要为了支持 session 过期后，请求 ajax 后可以刷新页面
+          if (data.script) {
+            new Function(data.script)();
+          }
+        }
+      }
     });
 
     // 定义 ajax 成功后的回调方法
@@ -328,7 +342,7 @@
       evt.stopPropagation(); // 阻止冒泡事件
 
       var dataCallback,
-          dataCallbackStr = $(this).data("success");
+      dataCallbackStr = $(this).data("success");
       //console.log("data-success: " + dataCallbackStr);
       if (dataCallbackStr) {
         dataCallback = window[dataCallbackStr];
@@ -355,7 +369,7 @@
       evt.stopPropagation(); // 阻止冒泡事件
 
       var dataCallback,
-          dataCallbackStr = $(this).data("error");
+      dataCallbackStr = $(this).data("error");
       if (dataCallbackStr) {
         dataCallback = window[dataCallbackStr];
       }
@@ -381,18 +395,6 @@
     // 找出所有设置了 data-date 属性的字段，设置日期控件
     // TODO 增加日期格式控制
     $("input[data-date]").datepicker();
-
-    /*
-    $("a[data-autoload]").each(function() {
-      var autoLoad = $(this).attr("data-autoload"),
-          fragment = $(this).attr("data-fragment"),
-          href = $(this).attr("href");
-      if (autoLoad === "scroll") {
-        $.gmc.autoLoadByScroll(href, function(data) {
-          $("#" + fragment).append(data);
-        });
-      }
-    });*/
   });
 })(jQuery, window);
 
