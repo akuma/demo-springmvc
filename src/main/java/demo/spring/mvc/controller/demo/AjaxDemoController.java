@@ -10,9 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +31,7 @@ import demo.spring.mvc.entity.User;
 public class AjaxDemoController extends BasicController {
 
     @RequestMapping("/")
-    public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String index() {
         return "demo/ajax/index";
     }
 

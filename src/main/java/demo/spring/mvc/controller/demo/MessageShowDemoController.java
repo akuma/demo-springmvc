@@ -6,7 +6,6 @@ package demo.spring.mvc.controller.demo;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ import demo.spring.mvc.controller.BasicController;
 public class MessageShowDemoController extends BasicController {
 
     @RequestMapping("/")
-    public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String index() {
         return "demo/message/index";
     }
 
