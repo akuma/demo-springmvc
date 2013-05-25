@@ -30,7 +30,7 @@
     <aop:aspectj-autoproxy />
 
     <aop:config>
-        <aop:pointcut id="serviceMethods" expression="execution(* demo..*.service..*.*(..))" />
+        <aop:pointcut id="serviceMethods" expression="execution(* demo.springmvc.service..*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
     </aop:config>
 
@@ -42,7 +42,7 @@
             <tx:method name="query*" propagation="SUPPORTS" timeout="10" read-only="true" />
             <tx:method name="search*" propagation="SUPPORTS" timeout="10" read-only="true" />
             <!-- Set update transaction timeout -->
-            <tx:method name="*" propagation="REQUIRED" timeout="30" rollback-for="ItemExistsException" />
+            <tx:method name="*" propagation="REQUIRED" timeout="30" />
         </tx:attributes>
     </tx:advice>
 
@@ -57,7 +57,7 @@
         p:idleConnectionTestPeriod="${jdbc.idleConnectionTestPeriod}" p:maxPoolSize="${jdbc.maxPoolSize}"
         p:minPoolSize="${jdbc.minPoolSize}" p:maxStatements="${jdbc.maxStatements}" />
 
-    <!-- MyBatis config start -->
+    <!-- MyBatis config -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="demo.spring.mvc.dao" />
         <property name="annotationClass" value="com.guomi.meazza.orm.mybatis.MyBatisRepository" />
@@ -73,6 +73,5 @@
         <constructor-arg index="0" ref="sqlSessionFactory" />
         <constructor-arg index="1" value="BATCH" />
     </bean>
-    <!-- MyBatis config end -->
 
 </beans>
