@@ -14,7 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.guomi.meazza.util.ServletUtils;
 
 import demo.spring.mvc.controller.common.LoginController;
-import demo.spring.mvc.dto.MemoryUser;
+import demo.spring.mvc.dto.CurrentUser;
 
 /**
  * 权限验证拦截器。
@@ -25,7 +25,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getSession().getAttribute(MemoryUser.KEY) != null) {
+        if (request.getSession().getAttribute(CurrentUser.SESSION_KEY) != null) {
             return true;
         }
 

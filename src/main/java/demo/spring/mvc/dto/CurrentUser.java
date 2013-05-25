@@ -1,17 +1,17 @@
 /*
- * @(#)MemoryUser.java    Created on 2010-7-14
+ * @(#)CurrentUser.java    Created on 2010-7-14
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.dto;
 
-import com.guomi.meazza.support.AbstractMemoryUser;
+import com.guomi.meazza.support.AbstractCurrentUser;
 
 /**
  * 用于保存在 Session 中的用户信息类。
  * 
  * @author akuma
  */
-public class MemoryUser extends AbstractMemoryUser<Long> {
+public class CurrentUser extends AbstractCurrentUser<Long> {
 
     private static final long serialVersionUID = -6786128717270367146L;
 

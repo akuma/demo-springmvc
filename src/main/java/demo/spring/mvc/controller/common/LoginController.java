@@ -5,21 +5,20 @@
 package demo.spring.mvc.controller.common;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import com.guomi.meazza.util.StringUtils;
 
 import demo.spring.mvc.controller.BasicController;
-import demo.spring.mvc.dto.MemoryUser;
+import demo.spring.mvc.dto.CurrentUser;
 import demo.spring.mvc.entity.User;
 import demo.spring.mvc.service.UserService;
 
@@ -42,7 +41,7 @@ public class LoginController extends BasicController {
      */
     @RequestMapping({ "/", "/index" })
     public String index(WebRequest request, Model model) {
-        if (getMemoryUser() != null) {
+        if (getCurrentUser() != null) {
             return "redirect:/welcome";
         }
 
@@ -87,11 +86,11 @@ public class LoginController extends BasicController {
             return "index";
         }
 
-        MemoryUser memoryUser = new MemoryUser();
-        memoryUser.setId(dbUser.getId());
-        memoryUser.setUsername(dbUser.getUsername());
-        memoryUser.setRealName(dbUser.getRealName());
-        request.setAttribute(MemoryUser.KEY, memoryUser, RequestAttributes.SCOPE_SESSION);
+        CurrentUser currentUser = new CurrentUser();
+        currentUser.setId(dbUser.getId());
+        currentUser.setUsername(dbUser.getUsername());
+        currentUser.setRealName(dbUser.getRealName());
+        currentUser.saveSession(request);
 
         return "redirect:welcome";
     }
@@ -100,9 +99,8 @@ public class LoginController extends BasicController {
      * 处理退出系统操作并重定向到登录页面。
      */
     @RequestMapping("/logout")
-    public String logout(NativeWebRequest request) {
-        request.removeAttribute(MemoryUser.KEY, RequestAttributes.SCOPE_SESSION);
-        request.getNativeRequest(HttpServletRequest.class).getSession().invalidate();
+    public String logout(ServletWebRequest request) {
+        getCurrentUser().destorySession(request);
         return "redirect:/";
     }
 

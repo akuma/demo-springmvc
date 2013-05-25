@@ -65,7 +65,7 @@ public class AccountSettingController extends BasicController {
         }
 
         User user = new User();
-        user.setId(getMemoryUser().getId());
+        user.setId(getCurrentUser().getId());
         user.setPassword(password0);
         userService.modifyUserIfPossible(user);
         addActionMessage("密码修改成功", model);

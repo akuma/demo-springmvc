@@ -1,4 +1,5 @@
 <#include "common.ftl">
+<#include "pagination.ftl">
 <#include "header.ftl">
 
 <#-- 公共 css -->

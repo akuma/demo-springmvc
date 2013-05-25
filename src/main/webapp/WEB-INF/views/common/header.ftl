@@ -34,7 +34,7 @@
           </ul>
           <ul class="nav pull-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>${(memoryUser.username)!}</span> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>${(currentUser.username)!}</span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="${request.contextPath}/logout">退出</a></li>
               </ul>

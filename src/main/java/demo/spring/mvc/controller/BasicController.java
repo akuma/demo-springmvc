@@ -14,7 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.guomi.meazza.spring.mvc.AbstractController;
 
-import demo.spring.mvc.dto.MemoryUser;
+import demo.spring.mvc.dto.CurrentUser;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
@@ -29,8 +29,8 @@ public abstract class BasicController extends AbstractController {
     /**
      * 获取已登录用户的信息。
      */
-    protected MemoryUser getMemoryUser() {
-        return (MemoryUser) RequestContextHolder.getRequestAttributes().getAttribute(MemoryUser.KEY,
+    protected CurrentUser getCurrentUser() {
+        return (CurrentUser) RequestContextHolder.getRequestAttributes().getAttribute(CurrentUser.SESSION_KEY,
                 RequestAttributes.SCOPE_SESSION);
     }
 

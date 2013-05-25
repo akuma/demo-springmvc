@@ -37,7 +37,6 @@ public class UserController extends BasicController {
 
     @Resource
     private UserValidator userValidator;
-
     @Resource
     private UserService userService;
 
