@@ -70,7 +70,7 @@
 <link rel="stylesheet" href="${assetPath}/css/bootstrap-responsive.min.css">
 <link rel="stylesheet" href="${assetPath}/css/jquery-ui.min.css">
 <#else>
-<link rel="stylesheet" href="${assetPath}/css/global.css">
+<link rel="stylesheet" href="${assetPath}/css/global_3cf9401.css">
 </#if>
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -85,10 +85,10 @@
 <script src="${assetPath}/js/jquery-ui.min.js"></script>
 <script src="${assetPath}/js/jquery-ujs.min.js"></script>
 <script src="${assetPath}/js/bootstrap.min.js"></script>
-<script src="${assetPath}/js/gm-common.js"></script>
 <#else>
-<script src="${assetPath}/js/global.js"></script>
+<script src="${assetPath}/js/global_85c4a20.js"></script>
 </#if>
+<script src="${assetPath}/js/gm-common.js"></script>
 </#macro>
 
 <#-- 包含通用 css、js 的 html 宏定义 -->
