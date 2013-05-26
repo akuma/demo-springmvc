@@ -85,7 +85,8 @@
     <bean id="commonModelAttributeInterceptor" class="com.guomi.meazza.spring.interceptor.CommonModelAttributeInterceptor">
         <property name="commonAttributes">
             <map>
-                <entry key="systemInfo" value-ref="systemInfo" />
+                <entry key="appInfo" value-ref="appInfo" />
+                <entry key="appSettings" value-ref="appSettings" />
             </map>
         </property>
     </bean>

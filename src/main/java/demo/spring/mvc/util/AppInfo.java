@@ -1,5 +1,5 @@
 /*
- * @(#)SystemInfo.java    Created on 2010-7-15
+ * @(#)AppInfo.java    Created on 2010-7-15
  * Copyright (c) 2012 Akuma. All rights reserved.
  */
 package demo.spring.mvc.util;
@@ -18,22 +18,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * 系统信息类。
+ * 系统信息封装类。
  * 
  * @author akuma
  */
 @Component
-public class SystemInfo implements Serializable {
+public class AppInfo implements Serializable {
 
     private static final long serialVersionUID = -4059578153197605890L;
 
-    private static final Logger logger = LoggerFactory.getLogger(SystemInfo.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppInfo.class);
 
-    @Value("#{appProperties['system.id']}")
+    @Value("#{appProperties['app.id']}")
     private String id;
-    @Value("#{appProperties['system.name']}")
+    @Value("#{appProperties['app.name']}")
     private String name;
-    @Value("#{appProperties['system.copyright']}")
+    @Value("#{appProperties['app.copyright']}")
     private String copyright;
 
     private String version;
@@ -42,9 +42,6 @@ public class SystemInfo implements Serializable {
     private String revision;
     private String fullVersion;
     private String serverMarker;
-
-    public SystemInfo() {
-    }
 
     /**
      * 初始化服务器标记。

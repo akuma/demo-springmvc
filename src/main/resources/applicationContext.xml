@@ -30,7 +30,7 @@
     <aop:aspectj-autoproxy />
 
     <aop:config>
-        <aop:pointcut id="serviceMethods" expression="execution(* demo.springmvc.service..*.*(..))" />
+        <aop:pointcut id="serviceMethods" expression="execution(* demo.spring.mvc.service..*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
     </aop:config>
 

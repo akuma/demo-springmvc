@@ -3,7 +3,7 @@
     <div class="navbar-inner">
       <div class="container-fluid">
         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></a>
-        <a class="brand" href="${request.contextPath}">${systemInfo.name}</a>
+        <a class="brand" href="${request.contextPath}">${appInfo.name}</a>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="brand" href="${request.contextPath}/welcome">${systemInfo.name}</a>
+        <a class="brand" href="${request.contextPath}/welcome">${appInfo.name}</a>
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li class="active"><a href="${request.contextPath}/welcome">首页</a></li>

@@ -1,7 +1,5 @@
 <#-- GM Freemarker 通用模版 -->
 
-<#include "pagination.ftl">
-
 <#-- html5 框架宏定义 -->
 <#macro html>
 <!DOCTYPE html>
@@ -24,12 +22,12 @@
 <@commonStyles />
 <#-- 处理 styles 参数是单个值的情况 -->
 <#if styles?is_string && styles != "">
-<link rel="stylesheet" href="${request.contextPath}/css/${styles}">
+<link rel="stylesheet" href="${assetPath}/css/${styles}">
 </#if>
 <#-- 处理 styles 参数是数组的情况 -->
 <#if styles?is_sequence>
   <#list styles as sty>
-<link rel="stylesheet" href="${request.contextPath}/css/${sty}">
+<link rel="stylesheet" href="${assetPath}/css/${sty}">
   </#list>
 </#if>
 <#-- 处理 style 宏 -->
@@ -40,12 +38,12 @@
 <@commonScripts />
 <#-- 处理 scripts 参数是的单个值的情况 -->
 <#if scripts?is_string && scripts != "">
-<script src="${request.contextPath}/js/${scripts}"></script>
+<script src="${assetPath}/js/${scripts}"></script>
 </#if>
 <#-- 处理 scripts 参数是的数组的情况 -->
 <#if scripts?is_sequence>
   <#list scripts as scr>
-<script src="${request.contextPath}/js/${scr}"></script>
+<script src="${assetPath}/js/${scr}"></script>
   </#list>
 </#if>
 <#-- 处理 script 宏 -->
@@ -67,9 +65,13 @@
 
 <#-- 通用 css 宏定义 -->
 <#macro commonStyles>
-<link rel="stylesheet" href="${request.contextPath}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${request.contextPath}/css/bootstrap-responsive.min.css">
-<link rel="stylesheet" href="${request.contextPath}/css/jquery/jquery-ui.min.css">
+<#if (appSettings.dev)?? && appSettings.dev>
+<link rel="stylesheet" href="${assetPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${assetPath}/css/bootstrap-responsive.min.css">
+<link rel="stylesheet" href="${assetPath}/css/jquery-ui.min.css">
+<#else>
+<link rel="stylesheet" href="${assetPath}/css/global.css">
+</#if>
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -78,11 +80,15 @@
 
 <#-- 通用 script 宏定义 -->
 <#macro commonScripts>
-<script src="${request.contextPath}/js/jquery.min.js"></script>
-<script src="${request.contextPath}/js/jquery-ui.min.js"></script>
-<script src="${request.contextPath}/js/jquery-ujs.min.js"></script>
-<script src="${request.contextPath}/js/bootstrap.min.js"></script>
-<script src="${request.contextPath}/js/gm-common.js"></script>
+<#if (appSettings.dev)?? && appSettings.dev>
+<script src="${assetPath}/js/jquery.min.js"></script>
+<script src="${assetPath}/js/jquery-ui.min.js"></script>
+<script src="${assetPath}/js/jquery-ujs.min.js"></script>
+<script src="${assetPath}/js/bootstrap.min.js"></script>
+<script src="${assetPath}/js/gm-common.js"></script>
+<#else>
+<script src="${assetPath}/js/global.js"></script>
+</#if>
 </#macro>
 
 <#-- 包含通用 css、js 的 html 宏定义 -->
@@ -148,3 +154,9 @@
   </#if>
   <#return retVal>
 </#function>
+
+<#-- 定义 asset 文件路径前缀 -->
+<#assign assetPath=(appSettings.assetPath)!>
+<#if assetPath = "">
+  <#assign assetPath=request.contextPath>
+</#if>
