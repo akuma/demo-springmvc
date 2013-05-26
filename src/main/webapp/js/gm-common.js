@@ -394,7 +394,12 @@
 
     // 找出所有设置了 data-date 属性的字段，设置日期控件
     // TODO 增加日期格式控制
-    $("input[data-date]").datepicker();
+    if ($.datepicker) {
+      $("input[data-date]").datepicker({
+        changeMonth: true,
+        changeYear: true
+      });
+    }
   });
 })(jQuery, window);
 
