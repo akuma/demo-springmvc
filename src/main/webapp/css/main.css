@@ -36,3 +36,11 @@ body {
   font-weight: bold;
   background: #fff1a8; /*url(../img/ic-loading.gif) no-repeat 7px 6px;*/
 }
+
+.ui-datepicker {
+  font-size: 14px;
+}
+
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
+  width: 40%;
+}
