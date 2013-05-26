@@ -393,11 +393,18 @@
       on("ajax:error", "form, a, button, input, textarea, select", ajaxErrorCallback);
 
     // 找出所有设置了 data-date 属性的字段，设置日期控件
-    // TODO 增加日期格式控制
     if ($.datepicker) {
-      $("input[data-date]").datepicker({
-        changeMonth: true,
-        changeYear: true
+      $("input[data-date]").each(function() {
+        var yrange = $(this).attr("data-yearRange");
+        if (!yrange) {
+          yrange = "c-10:c";
+        }
+
+        $(this).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          yearRange: yrange
+        });
       });
     }
   });

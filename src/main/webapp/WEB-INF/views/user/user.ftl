@@ -80,7 +80,7 @@ var saveCallback = function(result, event) {
       <div class="control-group">
         <label class="control-label" for="birthday">生日</label>
         <div class="controls">
-          <input type="text" id="birthday" name="birthday" value="${(user.birthday?date)!}" data-date>
+          <input type="text" id="birthday" name="birthday" value="${(user.birthday?date)!}" data-date data-yearRange="1970:">
           <span id="birthdayError" class="help-inline">出生日期，例如：2000-01-01</span>
         </div>
       </div>
