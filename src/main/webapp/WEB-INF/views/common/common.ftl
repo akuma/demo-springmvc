@@ -1,4 +1,16 @@
-<#-- GM Freemarker 通用模版 -->
+<#-- GM Freemarker 公共模版 -->
+
+<#-- 定义 assets 路径前缀 -->
+<#assign assetsPath=(appSettings.assetsPath)!>
+<#if assetsPath = "">
+  <#assign assetsPath=request.contextPath>
+</#if>
+
+<#-- 公共 css 数组定义 -->
+<#assign commonCssArray = ["bootstrap.min.css", "bootstrap-responsive.min.css", "jquery-ui.min.css"]>
+
+<#-- 公共 script 数组定义 -->
+<#assign commonScriptArray = ["jquery.min.js", "jquery-ui.min.js", "jquery-ujs.min.js", "bootstrap.min.js"]>
 
 <#-- html5 框架宏定义 -->
 <#macro html>
@@ -8,13 +20,7 @@
 </html>
 </#macro>
 
-<#-- 定义 assets 路径前缀 -->
-<#assign assetsPath=(appSettings.assetsPath)!>
-<#if assetsPath = "">
-  <#assign assetsPath=request.contextPath>
-</#if>
-
-<#-- html head 宏定义，默认设置了通用的 css、js -->
+<#-- html head 宏定义，默认设置了公共的 css、js -->
 <#macro head title="" styles="" scripts="" styleMacro="" scriptMacro="">
 <head>
 <meta charset="utf-8">
@@ -24,23 +30,23 @@
 <meta name="csrf-token" content="${csrfToken}">
 </#if>
 <title>${title!}</title>
-<#-- 显示通用样式 -->
-<@commonStyles />
+<#-- 显示公共样式 -->
+<@commonCss />
 <#-- 处理 styles 参数是单个值的情况 -->
 <#if styles?is_string && styles != "">
 <link rel="stylesheet" href="${assetsPath}/css/${styles}">
 </#if>
 <#-- 处理 styles 参数是数组的情况 -->
 <#if styles?is_sequence>
-  <#list styles as sty>
-<link rel="stylesheet" href="${assetsPath}/css/${sty}">
+  <#list styles as style>
+<link rel="stylesheet" href="${assetsPath}/css/${style}">
   </#list>
 </#if>
 <#-- 处理 style 宏 -->
 <#if styleMacro?is_macro>
   <@styleMacro />
 </#if>
-<#-- 显示通用脚本 -->
+<#-- 显示公共脚本 -->
 <@commonScripts />
 <#-- 处理 scripts 参数是的单个值的情况 -->
 <#if scripts?is_string && scripts != "">
@@ -71,12 +77,12 @@
 </head>
 </#macro>
 
-<#-- 通用 css 宏定义 -->
-<#macro commonStyles>
+<#-- 公共 css 宏定义 -->
+<#macro commonCss>
 <#if (appSettings.assetsGlobalCss)! == "" || (appSettings.dev)!false>
-<link rel="stylesheet" href="${assetsPath}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${assetsPath}/css/bootstrap-responsive.min.css">
-<link rel="stylesheet" href="${assetsPath}/css/jquery-ui.min.css">
+<#list commonCssArray as css>
+<link rel="stylesheet" href="${assetsPath}/css/${css}">
+</#list>
 <#else>
 <link rel="stylesheet" href="${assetsPath}/css/${(appSettings.assetsGlobalCss)!}">
 </#if>
@@ -86,13 +92,12 @@
 <![endif]-->
 </#macro>
 
-<#-- 通用 script 宏定义 -->
+<#-- 公共 script 宏定义 -->
 <#macro commonScripts>
 <#if (appSettings.assetsGlobalJs)! == "" || (appSettings.dev)!false>
-<script src="${assetsPath}/js/jquery.min.js"></script>
-<script src="${assetsPath}/js/jquery-ui.min.js"></script>
-<script src="${assetsPath}/js/jquery-ujs.min.js"></script>
-<script src="${assetsPath}/js/bootstrap.min.js"></script>
+  <#list commonScriptArray as script>
+<script src="${assetsPath}/js/${script}"></script>
+  </#list>
 <#else>
 <script src="${assetsPath}/js/${(appSettings.assetsGlobalJs)!}"></script>
 </#if>
@@ -114,7 +119,7 @@ ga('send', 'pageview');
 </#if>
 </#macro>
 
-<#-- 包含通用 css、js 的 html 宏定义 -->
+<#-- 包含公共 css、js 的 html 宏定义 -->
 <#macro gmPage title="未命名" styles="" scripts="" styleMacro="" scriptMacro="">
 <@html>
 <@head title=title styles=styles scripts=scripts styleMacro=styleMacro scriptMacro=scriptMacro />
@@ -159,8 +164,8 @@ ga('send', 'pageview');
   </#if>
 </#macro>
 
-<#-- 将两个 css（单个或者数组） 合并为一个数组的函数 -->
-<#function mergeStyles a b>
+<#-- 将两个 css/js（单个或者数组） 合并为一个数组的函数 -->
+<#function mergeAssets a b>
   <#local retVal=[]>
   <#if a?is_string && a != "">
     <#local retVal=retVal + [a]>

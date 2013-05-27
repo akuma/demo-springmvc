@@ -3,11 +3,11 @@
 <#include "header.ftl">
 
 <#-- 公共 css -->
-<#assign applicationStyles=["main.css"]>
+<#assign appStyles=["main.css"]>
 
 <#-- 包含公共 css、js 资源的页面宏 -->
 <#macro simplePage title="未命名" styles="" scripts="" styleMacro="" scriptMacro="" noContainer=false useHeader=true>
-<@gmPage title=title styles=mergeStyles(applicationStyles, styles) scripts=scripts styleMacro=styleMacro scriptMacro=scriptMacro>
+<@gmPage title=title styles=mergeAssets(appStyles, styles) scripts=scripts styleMacro=styleMacro scriptMacro=scriptMacro>
 <#if !noContainer>
 <div class="container">
 </#if>
