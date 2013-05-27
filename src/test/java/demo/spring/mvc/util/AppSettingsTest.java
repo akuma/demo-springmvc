@@ -20,7 +20,7 @@ public class AppSettingsTest extends BasicTestCase {
 
     @Test
     public void testGetAssetPath() {
-        System.out.println(appSettings.getAssetPath());
+        System.out.println(appSettings.getAssetsPath());
     }
 
 }

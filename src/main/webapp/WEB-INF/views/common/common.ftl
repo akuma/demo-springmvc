@@ -8,12 +8,18 @@
 </html>
 </#macro>
 
+<#-- 定义 assets 路径前缀 -->
+<#assign assetsPath=(appSettings.assetsPath)!>
+<#if assetsPath = "">
+  <#assign assetsPath=request.contextPath>
+</#if>
+
 <#-- html head 宏定义，默认设置了通用的 css、js -->
 <#macro head title="" styles="" scripts="" styleMacro="" scriptMacro="">
 <head>
 <meta charset="utf-8">
-<#-- 设置避免 csrf 攻击的令牌 -->
-<#if csrfToken?? && csrfToken != "">
+<#-- 设置防止 CSRF 攻击的 token -->
+<#if csrfToken! != "">
 <meta name="csrf-param" content="authenticity_token">
 <meta name="csrf-token" content="${csrfToken}">
 </#if>
@@ -22,12 +28,12 @@
 <@commonStyles />
 <#-- 处理 styles 参数是单个值的情况 -->
 <#if styles?is_string && styles != "">
-<link rel="stylesheet" href="${assetPath}/css/${styles}">
+<link rel="stylesheet" href="${assetsPath}/css/${styles}">
 </#if>
 <#-- 处理 styles 参数是数组的情况 -->
 <#if styles?is_sequence>
   <#list styles as sty>
-<link rel="stylesheet" href="${assetPath}/css/${sty}">
+<link rel="stylesheet" href="${assetsPath}/css/${sty}">
   </#list>
 </#if>
 <#-- 处理 style 宏 -->
@@ -38,12 +44,12 @@
 <@commonScripts />
 <#-- 处理 scripts 参数是的单个值的情况 -->
 <#if scripts?is_string && scripts != "">
-<script src="${assetPath}/js/${scripts}"></script>
+<script src="${assetsPath}/js/${scripts}"></script>
 </#if>
 <#-- 处理 scripts 参数是的数组的情况 -->
 <#if scripts?is_sequence>
-  <#list scripts as scr>
-<script src="${assetPath}/js/${scr}"></script>
+  <#list scripts as script>
+<script src="${assetsPath}/js/${script}"></script>
   </#list>
 </#if>
 <#-- 处理 script 宏 -->
@@ -51,6 +57,8 @@
   <@scriptMacro />
 </#if>
 <#nested>
+<#-- 添加网页访问分析 js -->
+<@pageTracker />
 </head>
 </#macro>
 
@@ -65,12 +73,12 @@
 
 <#-- 通用 css 宏定义 -->
 <#macro commonStyles>
-<#if (appSettings.dev)?? && appSettings.dev>
-<link rel="stylesheet" href="${assetPath}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${assetPath}/css/bootstrap-responsive.min.css">
-<link rel="stylesheet" href="${assetPath}/css/jquery-ui.min.css">
+<#if (appSettings.assetsGlobalCss)! == "" || (appSettings.dev)!false>
+<link rel="stylesheet" href="${assetsPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${assetsPath}/css/bootstrap-responsive.min.css">
+<link rel="stylesheet" href="${assetsPath}/css/jquery-ui.min.css">
 <#else>
-<link rel="stylesheet" href="${assetPath}/css/global_3cf9401.css">
+<link rel="stylesheet" href="${assetsPath}/css/${(appSettings.assetsGlobalCss)!}">
 </#if>
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -80,15 +88,30 @@
 
 <#-- 通用 script 宏定义 -->
 <#macro commonScripts>
-<#if (appSettings.dev)?? && appSettings.dev>
-<script src="${assetPath}/js/jquery.min.js"></script>
-<script src="${assetPath}/js/jquery-ui.min.js"></script>
-<script src="${assetPath}/js/jquery-ujs.min.js"></script>
-<script src="${assetPath}/js/bootstrap.min.js"></script>
+<#if (appSettings.assetsGlobalJs)! == "" || (appSettings.dev)!false>
+<script src="${assetsPath}/js/jquery.min.js"></script>
+<script src="${assetsPath}/js/jquery-ui.min.js"></script>
+<script src="${assetsPath}/js/jquery-ujs.min.js"></script>
+<script src="${assetsPath}/js/bootstrap.min.js"></script>
 <#else>
-<script src="${assetPath}/js/global_85c4a20.js"></script>
+<script src="${assetsPath}/js/${(appSettings.assetsGlobalJs)!}"></script>
 </#if>
-<script src="${assetPath}/js/gm-common.js"></script>
+<script src="${assetsPath}/js/gm-common.js"></script>
+</#macro>
+
+<#-- 网页访问分析 js 宏定义 -->
+<#macro pageTracker>
+<#if (appSettings.pageTrackEnable)!false>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', '${appSettings.pageTrackerId}', '${appSettings.pageTrackerDomain}');
+ga('send', 'pageview');
+</script>
+</#if>
 </#macro>
 
 <#-- 包含通用 css、js 的 html 宏定义 -->
@@ -99,10 +122,9 @@
   <!--[if lt IE 9]>
   <div class="notice-bar">您的浏览器颇为古老，网站无法很好的支持！其实，您可以有更好的选择：
     <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <a href="http://se.360.cn/" target="_blank">360 安全浏览器</a>、
     <a href="http://www.google.com/intl/zh-CN/chrome/browser/" target="_blank">谷歌浏览器</a>、
-    <a href="http://firefox.com.cn/" target="_blank">火狐浏览器</a>、
-    <a href="http://chrome.360.cn/" target="_blank">360 极速浏览器</a>、
-    <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a>
+    <a href="http://firefox.com.cn/" target="_blank">火狐浏览器</a>
   </div>
   <![endif]-->
   <#nested>
@@ -154,9 +176,3 @@
   </#if>
   <#return retVal>
 </#function>
-
-<#-- 定义 asset 文件路径前缀 -->
-<#assign assetPath=(appSettings.assetPath)!>
-<#if assetPath = "">
-  <#assign assetPath=request.contextPath>
-</#if>
