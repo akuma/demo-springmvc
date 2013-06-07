@@ -64,16 +64,6 @@
             <mvc:exclude-mapping path="/**/*.gif" />
             <mvc:exclude-mapping path="/**/*.jpg" />
             <mvc:exclude-mapping path="/**/*.html" />
-            <ref bean="commonModelAttributeInterceptor" />
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/**" />
-            <mvc:exclude-mapping path="/**/*.js" />
-            <mvc:exclude-mapping path="/**/*.css" />
-            <mvc:exclude-mapping path="/**/*.png" />
-            <mvc:exclude-mapping path="/**/*.gif" />
-            <mvc:exclude-mapping path="/**/*.jpg" />
-            <mvc:exclude-mapping path="/**/*.html" />
             <mvc:exclude-mapping path="/" />
             <mvc:exclude-mapping path="/index" />
             <mvc:exclude-mapping path="/login" />
@@ -81,15 +71,6 @@
             <bean class="demo.spring.mvc.interceptor.AuthInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
-
-    <bean id="commonModelAttributeInterceptor" class="com.guomi.meazza.spring.interceptor.CommonModelAttributeInterceptor">
-        <property name="commonAttributes">
-            <map>
-                <entry key="appInfo" value-ref="appInfo" />
-                <entry key="appSettings" value-ref="appSettings" />
-            </map>
-        </property>
-    </bean>
 
     <!-- Declare a view resolver -->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -133,6 +114,8 @@
     </bean>
 
     <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+
+    <bean id="freeMarkerConfigController" class="com.guomi.meazza.spring.mvc.FreeMarkerConfigController" />
 
     <!-- Configure the multipart resolver -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
