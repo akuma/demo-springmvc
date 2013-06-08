@@ -15,7 +15,7 @@ $(function() {
 </script>
 </#macro>
 
-<@fm.simplePage title="${(appInfo.id)!}" styles="login.css" scriptMacro=scriptMacro>
+<@fm.simplePage title="${(appInfo.name)!}" styles="login.css" scriptMacro=scriptMacro>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container-fluid">
